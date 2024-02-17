@@ -1,0 +1,26 @@
+name: Build and Deploy Docker Container
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Remove old Docker container
+        run: |
+          docker rm -f api-server || true
+
+      - name: Build Docker image
+        run: |
+          docker build -t api-image .
+
+      - name: Run Docker container
+        run: |
+          docker run -d --name api-server -p 8088:8088 api-image
