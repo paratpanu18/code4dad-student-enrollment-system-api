@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Stop and remove existing container
+      run: |
+        sudo docker stop api-server || true
+        sudo docker rm api-server || true
+    - name: Build the Docker image
+      run: sudo docker build -t api-image .
+    - name: Run the Docker container
+      run: sudo docker run -d -p 8088:8088 --name api-server api-image
