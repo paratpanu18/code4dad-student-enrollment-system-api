@@ -1,23 +1,49 @@
+import datetime
+
+from fastapi import APIRouter
+
 from Account import Account
 
 class Student(Account):
+    type = "student"
     def __init__(self, name, citizen_id, email, password, is_graduated: bool,
-                 student_id, major, faculty, year):
-        super().__init__(name, citizen_id, email, password, is_graduated)
+                 student_id, major, faculty):
+        super().__init__(name, citizen_id, email, password)
         
         self.__student_id = student_id 
         self.__major = major 
         self.__faculty = faculty 
-        self.__year = year
+        self.__year = datetime.datetime.now().year
         self.__transcript_list = []
+        self.__is_graduated = is_graduated
+    
+    @property
+    def student_id(self):
+        return self.__student_id
+    
+    @property
+    def major(self):
+        return self.__major
+    
+    @property
+    def faculty(self):
+        return self.__faculty
+    
+    @property
+    def year(self):
+        return self.__year
+    
+    @property
+    def transcript_list(self):
+        return self.__transcript_list
     
     def get_data(self):
         return {
             "student_id" : self.__student_id,
-            "student_name" : self.__name,
+            "student_name" : super().name,
             "faculty" : self.__faculty,
             "year" : self.__year,
-            "email" : self.__email,
+            "email" : super().email,
             "is_graduated" : self.__is_graduated
         }
     
@@ -29,5 +55,3 @@ class Student(Account):
     
     def change_section(self):
         pass
-    
-        

@@ -4,4 +4,17 @@ class Account():
         self.__citizen_id = citizen_id 
         self.__email = email 
         self.__password = password 
-        self.__is_graduated = False
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def citizen_id(self):
+        return self.__citizen_id
+    
+    @property
+    def email(self):
+        return self.__email
+    
+    
