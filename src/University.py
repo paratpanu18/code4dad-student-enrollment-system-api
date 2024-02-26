@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from Schema import Student_Schema
 
 university_router = APIRouter()
 class University():
@@ -18,7 +19,7 @@ class University():
     
     def get_course_by_course_id(self, course_id):
         for course in self.__course_list:
-            if course.course_id == course_id:
+            if course.id == course_id:
                 return course
         return "course not found"
     
@@ -40,6 +41,10 @@ class University():
     def add_teacher(self, teacher):
         self.__teacher_list.append(teacher)
 
+    def add_course(self, course):
+        self.__course_list.append(course)
+    
+
 kmitl = University(name="KMITL")
 
 @university_router.get("/get_user/{user_id}")
@@ -53,4 +58,14 @@ def get_user_data_by_user_id(user_id: str):
     
     return "User not found"
 
+@university_router.get("/get_course/{course_id}")
+def get_course_data_by_course_id(course_id: str):
+    course = kmitl.get_course_by_course_id(course_id)
+    if course:
+        return course.get_data()
+    return "Course not found"
 
+@university_router.post("/add_student")
+async def add_student(student: Student_Schema):
+    kmitl.add_student(student)
+    return student.get_data()

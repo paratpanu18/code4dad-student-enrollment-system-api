@@ -1,5 +1,9 @@
 from Account import Account 
+from Section import Section
+from University import kmitl
+from fastapi import APIRouter
 
+teacher_router = APIRouter()
 class Teacher(Account):
     type = "teacher"
     def __init__(self, name, citizen_id, email, password, teacher_id):
@@ -18,11 +22,9 @@ class Teacher(Account):
             "email" : super().email
         }
     
-    def add_section(self, section):
-        self.__section_list.append(section)
-    
-    def create_course(self, course):
-        pass
+    def add_section(self, section: Section):
+        course = kmitl.get_course_by_course_id(section.course_id)
+        course.add_section(section)
     
     
     

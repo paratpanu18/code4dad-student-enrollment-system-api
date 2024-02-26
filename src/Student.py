@@ -1,12 +1,10 @@
 import datetime
-
 from fastapi import APIRouter
-
 from Account import Account
 
 class Student(Account):
     type = "student"
-    def __init__(self, name, citizen_id, email, password, is_graduated: bool,
+    def __init__(self, name, citizen_id, email, password, 
                  student_id, major, faculty):
         super().__init__(name, citizen_id, email, password)
         
@@ -15,7 +13,7 @@ class Student(Account):
         self.__faculty = faculty 
         self.__year = datetime.datetime.now().year
         self.__transcript_list = []
-        self.__is_graduated = is_graduated
+        self.__is_graduated = False
     
     @property
     def student_id(self):

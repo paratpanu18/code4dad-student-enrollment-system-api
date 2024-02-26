@@ -11,7 +11,7 @@ init()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World 2"}
+    return {"Hello": "OOP Project"}
 
 if __name__ == "__main__":
     init()
