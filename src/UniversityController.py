@@ -203,13 +203,18 @@ class University():
                 return major
         return None
     
-    def get_major_data_by_major_name(self, major_name):
-        major = self.get_major_by_major_name(major_name)
+    def get_major_in_faculty(self, faculty_name, major_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
         if major is None:
             raise HTTPException(status_code=404, detail="Major not found")
+        
         return major.to_dict()
     
-    def add_major(self, major_name, academic_fees, elective_course_credit, faculty_name):
+    def add_major(self, major_name, academic_fees, faculty_name):
         faculty = self.get_faculty_by_faculty_name(faculty_name)
         if faculty is None:
             raise HTTPException(status_code=404, detail="Faculty not found")
@@ -218,9 +223,31 @@ class University():
         if major is not None:
             raise HTTPException(status_code=400, detail="Major already exists")
         
-        new_major = Major(major_name, academic_fees, elective_course_credit)
+        new_major = Major(major_name, academic_fees)
         faculty.add_major(new_major)
         return new_major.to_dict()
+    
+    def add_course_to_major(self, faculty_name, major_name, course_id, course_group):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        if course_group == "Core":
+            major.add_core_course(course)
+        elif course_group == "Elective":
+            major.add_elective_course(course)
+        else:
+            raise HTTPException(status_code=400, detail="Invalid course type. Course type must be one of the following: Core, Elective")
+        
+        return major.to_dict()
 
 kmitl = University(name="KMITL")
 
@@ -305,13 +332,28 @@ async def get_all_faculties():
 
 @university_router.get("/get_faculty_by_faculty_name/{faculty_name}")
 async def get_faculty_by_faculty_name(faculty_name: str):
-    return kmitl.get_faculty_by_faculty_name(faculty_name)
+    return kmitl.get_faculty_data_by_faculty_name(faculty_name)
+
+@university_router.get("/get_major_in_faculty/{faculty_name}/{major_name}")
+async def get_major_in_faculty(faculty_name: str, major_name: str):
+    return kmitl.get_major_in_faculty(faculty_name, major_name)
 
 @university_router.post("/add_faculty")
 async def add_faculty(faculty: Schema.InsertFaculty):
     return kmitl.add_faculty(faculty.faculty_name)
 
-@university_router.get("/get_all_majors_by_faculty_name/{faculty_name}")
-async def get_all_majors_by_faculty_name(faculty_name: str):
-    return kmitl.get_faculty_by_faculty_name(faculty_name).majors_list
+@university_router.post("/add_major")
+async def add_major(major: Schema.InsertMajor):
+    return kmitl.add_major(major.major_name, 
+                          major.academic_fees, 
+                          major.elective_course_credit, 
+                          major.faculty_name)
+
+@university_router.post("/add_course_to_major")
+async def add_course_to_major(course: Schema.InsertCourseToMajor):
+    return kmitl.add_course_to_major(course.faculty_name, 
+                                    course.major_name, 
+                                    course.course_id, 
+                                    course.course_group)
+
 

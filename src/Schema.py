@@ -44,3 +44,17 @@ class Enroll(BaseModel):
 
 class InsertFaculty(BaseModel):
     faculty_name: str
+
+class InsertMajor(BaseModel):
+    major_name: str
+    academic_fees: int
+    elective_course_credit: int
+    faculty_name: str
+
+class InsertCourseToMajor(BaseModel):
+    faculty_name: str
+    major_name: str
+    course_id: str
+    course_group: str
+
+    

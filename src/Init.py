@@ -73,11 +73,46 @@ def init_course():
                      grading_type = GRADE)
     
     kmitl.add_course(course_name = "Digital Intelligence Quotient",  
+                     course_id = "90641001", 
+                     credit = 3, 
+                     course_type = GENED, 
+                     grading_type = SATISFACTORY)
+    
+    kmitl.add_course(course_name = "Programming Fundamental",
+                     course_id = "01076002", 
+                     credit = 2, 
+                     course_type = CURRICULUM, 
+                     grading_type = GRADE)
+    
+    kmitl.add_course(course_name = "Programming Project",
+                     course_id = "01076003", 
+                     credit = 1, 
+                     course_type = CURRICULUM, 
+                     grading_type = GRADE)
+    
+    kmitl.add_course(course_name = "Pre-Activity Engineering",
+                     course_id = "01076004", 
+                     credit = 1, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+    
+    kmitl.add_course(course_name = "Charm School",
+                     course_id = "01076005", 
+                     credit = 2, 
+                     course_type = FACULTY, 
+                     grading_type = SATISFACTORY)
+    
+    kmitl.add_course(course_name = "Fundation English1",
                      course_id = "90641002", 
                      credit = 3, 
                      course_type = GENED, 
                      grading_type = SATISFACTORY)
     
+    kmitl.add_course(course_name = "Fundation English2",
+                        course_id = "90641003", 
+                        credit = 3, 
+                        course_type = GENED, 
+                        grading_type = SATISFACTORY)
 
 def init_section():
     # Calculus 1 - Section 16
@@ -139,16 +174,26 @@ def init_faculty():
     kmitl.add_faculty(faculty_name = "Management Science")
 
 def init_major():
-    kmitl.add_major(major_name = "Computer Engineering", academic_fees= 25000, elective_course_credit = 100, faculty_name = "Engineering")
-    kmitl.add_major(major_name = "Civil Engineering", academic_fees= 25000, elective_course_credit = 110, faculty_name = "Engineering")
-    kmitl.add_major(major_name = "Architecture", academic_fees= 25000, elective_course_credit = 95, faculty_name = "Architecture")
-    kmitl.add_major(major_name = "Physics", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
-    kmitl.add_major(major_name = "Chemistry", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
-    kmitl.add_major(major_name = "Biology", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
-    kmitl.add_major(major_name = "Industrial Education", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Industrial Education")
-    kmitl.add_major(major_name = "Information Technology", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Information Technology")
-    kmitl.add_major(major_name = "Agro-Industry", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Agro-Industry")
-    kmitl.add_major(major_name = "Management Science", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Management Science")
+    kmitl.add_major(major_name = "Computer Engineering", academic_fees= 25000, faculty_name = "Engineering")
+    kmitl.add_major(major_name = "Civil Engineering", academic_fees= 25000, faculty_name = "Engineering")
+    kmitl.add_major(major_name = "Architecture", academic_fees= 25000, faculty_name = "Architecture")
+    kmitl.add_major(major_name = "Physics", academic_fees= 25000, faculty_name = "Science")
+    kmitl.add_major(major_name = "Chemistry", academic_fees= 25000, faculty_name = "Science")
+    kmitl.add_major(major_name = "Biology", academic_fees= 25000, faculty_name = "Science")
+    kmitl.add_major(major_name = "Industrial Education", academic_fees= 25000, faculty_name = "Industrial Education")
+    kmitl.add_major(major_name = "Information Technology", academic_fees= 25000, faculty_name = "Information Technology")
+    kmitl.add_major(major_name = "Agro-Industry", academic_fees= 25000, faculty_name = "Agro-Industry")
+    kmitl.add_major(major_name = "Management Science", academic_fees= 25000, faculty_name = "Management Science")
+
+def init_add_course_to_major():
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076140", course_group = "Core")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076001", course_group = "Core")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076002", course_group = "Core")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076003", course_group = "Core")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076004", course_group = "Elective")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "01076005", course_group = "Elective")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "90641002", course_group = "Elective")
+    kmitl.add_course_to_major(faculty_name = "Engineering", major_name = "Computer Engineering", course_id = "90641003", course_group = "Elective")
 
                     
 
@@ -161,3 +206,4 @@ def init():
     init_enrollment()
     init_faculty()
     init_major()
+    init_add_course_to_major()
