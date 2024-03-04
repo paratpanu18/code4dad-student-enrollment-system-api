@@ -15,10 +15,10 @@ jobs:
 
       - name: 'Create env file'
         run: |
-          touch .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo ALGORITHM=${{ secrets.ALGORITHM }} >> .env
-          cat .env
+          touch src/.env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> src/.env
+          echo ALGORITHM=${{ secrets.ALGORITHM }} >> src/.env
+          cat src/.env
 
       - name: Remove old Docker container
         run: |
