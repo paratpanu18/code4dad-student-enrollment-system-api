@@ -1,31 +1,37 @@
-from Account import Account 
-from Section import Section
-from University import kmitl
-from fastapi import APIRouter
+from Account import Account
 
-teacher_router = APIRouter()
 class Teacher(Account):
-    type = "teacher"
-    def __init__(self, name, citizen_id, email, password, teacher_id):
-        super().__init__(name, citizen_id, email, password)
+    def __init__(self, teacher_id, password, email, name, citizen_id):
+        super().__init__(username = teacher_id, 
+                         password = password,
+                         email = email,
+                         name = name,
+                         citizen_id = citizen_id, 
+                         user_type = "teacher")
+        
         self.__teacher_id = teacher_id
-        self.__section_list = []
+        self.__section_taght = []
     
     @property
     def teacher_id(self):
         return self.__teacher_id
+    
+    @property
+    def name(self):
+        return super().name
+    
+    @property
+    def section_taught(self):
+        return self.__section_taght
+    
+    def add_taught_section(self, section):
+        self.__section_taght.append(section)
 
-    def get_data(self):
+    
+    def to_dict(self):
         return {
-            "teacher_id" : self.__teacher_id,
-            "teacher_name" : super().name,
-            "email" : super().email
+            "teacher_id": self.__teacher_id,
+            "email": super().email,
+            "name": super().name,
+            "citizen_id": super().citizen_id
         }
-    
-    def add_section(self, section: Section):
-        course = kmitl.get_course_by_course_id(section.course_id)
-        course.add_section(section)
-    
-    
-    
-

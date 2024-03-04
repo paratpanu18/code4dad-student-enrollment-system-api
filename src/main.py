@@ -1,19 +1,27 @@
-from fastapi import FastAPI, APIRouter
-import uvicorn
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from UniversityController import university_router, authenticator_router, student_router, teacher_router, course_router
 from Init import init
-from University import university_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(university_router)
+app.include_router(authenticator_router)
+app.include_router(student_router)
+app.include_router(teacher_router)
+app.include_router(course_router)
 
 init()
 
 @app.get("/")
-def read_root():
-    return {"Hello": "OOP Project"}
-
-if __name__ == "__main__":
-    init()
-    PORT = 8088
-    uvicorn.run(app, host="0.0.0.0", port=PORT)
+async def root():
+    return {"message": "Hello World"}

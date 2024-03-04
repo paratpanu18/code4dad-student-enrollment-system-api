@@ -1,37 +1,106 @@
 from Student import Student
 from Teacher import Teacher
-from Course import Course
-from Section import Section
-from University import kmitl  
 
-def init_user():
-    # Create Student
-    kmitl.add_student( Student(name="Pooh", citizen_id="12345678", email="66010572@kmitl.ac.th",      
-                               password="1234", student_id="66010572",
-                               major="Computer", faculty="Engineering"))
-    kmitl.add_student( Student(name="Oak", citizen_id="12345679", email="66010542@kmitl.ac.th",
-                               password="1234", student_id="66010542",
-                               major="Computer", faculty="Engineering"))
-    kmitl.add_student( Student(name="Yo", citizen_id="12345680", email="66010533@kmitl.ac.th",
-                               password="1234", student_id="66010533",
-                                 major="Computer", faculty="Engineering"))
-    kmitl.add_student( Student(name="Pea", citizen_id="12345681", email="66010587@kmitl.ac.th",
-                               password="1234", student_id="66010587",
-                                 major="Computer", faculty="Engineering"))
+
+from UniversityController import kmitl
+
+def init_student():
+    kmitl.add_student(student_id = "66010542", 
+                      password = "12345", 
+                      email = "66010542@kmitl.ac.th", 
+                      name = "Paratpanu Pechsaman", 
+                      citizen_id = "1033825486492", 
+                      major = "Computer Engineering", 
+                      faculty = "Engineering")
     
-    # Create Teacher
-    kmitl.add_teacher( Teacher(name="Thana", citizen_id="123425245", email="45778@kmitl.ac.th", password="1234", teacher_id="45778"))
-    kmitl.add_teacher( Teacher(name="Jirasak", citizen_id="123425245", email="45779@kmitl.ac.th", password="1234", teacher_id="45779"))
+    kmitl.add_student(student_id = "66010533", 
+                      password = "12345", 
+                      email = "66010533@kmitl.ac.th", 
+                      name = "Prompipat Thongtub", 
+                      citizen_id = "1126286680095", 
+                      major = "Computer Engineering", 
+                      faculty = "Engineering")
+    
+
+    kmitl.add_student(student_id = "66010572", 
+                      password = "12345", 
+                      email = "66010572@kmitl.ac.th", 
+                      name = "Pipatpong Panpreuak", 
+                      citizen_id = "1548329362896", 
+                      major = "Computer Engineering", 
+                      faculty = "Engineering")
+    
+    kmitl.add_student(student_id = "66010587", 
+                      password = "12345", 
+                      email = "66010587@kmitl.ac.th", 
+                      name = "Pearaphat Kumsing", 
+                      citizen_id = "5132523735261", 
+                      major = "Computer Engineering", 
+                      faculty = "Engineering")
+
+def init_teacher():
+    kmitl.add_teacher(teacher_id = "teacher1",
+                        password = "12345",
+                        email = "teacher1@kmitl.ac.th",
+                        name = "Teacher 1",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher2",
+                        password = "12345",
+                        email = "teacher2@kmitl.ac.th",
+                        name = "Teacher 2",
+                        citizen_id = "1234567890124")
 
 def init_course():
-    kmitl.add_course( Course(name = "OOP", id = "01076001", credit = 3,course_type= "Curriculum Course", grading_type="Normal" ))  
-    kmitl.add_course( Course(name = "Discrete Math", id = "01076002", credit = 3,course_type= "Curriculum Course", grading_type="Normal" ))
-    kmitl.add_course( Course(name = "Introduction to Computer Engineering", id = "01076003", credit = 3,course_type= "Curriculum Course", grading_type="Normal" ))
-    kmitl.add_course( Course(name = "Charm School", id = "01076004", credit = 3,course_type= "GenEd", grading_type="Pass/Fail" ))
-    kmitl.add_course( Course(name = "Foundation English 1 ", id = "01076005", credit = 3,course_type= "GenEd", grading_type="Pass/Fail" ))
-    kmitl.add_course( Course(name = "Foundation English 2", id = "01076006", credit = 3,course_type= "GenEd", grading_type="Pass/Fail" ))
 
-  
+    GRADE = 0
+    SATISFACTORY = 1
+
+    GENED = 0
+    FACULTY = 1
+    CURRICULUM = 2
+
+    kmitl.add_course(course_name = "Calculus 1", 
+                     course_id = "01076140", 
+                     credit = 3, 
+                     course_type = CURRICULUM, 
+                     grading_type = GRADE)
+    
+    kmitl.add_course(course_name = "Introduction to Computer Engineering", 
+                     course_id = "01076001", 
+                     credit = 3, 
+                     course_type = CURRICULUM, 
+                     grading_type = GRADE)
+    
+    kmitl.add_course(course_name = "Introduction to Computer Engineering", 
+                     course_id = "90641002", 
+                     credit = 3, 
+                     course_type = CURRICULUM, 
+                     grading_type = SATISFACTORY)
+    
+
+def init_section():
+    # Calculus 1 - Section 16
+    kmitl.add_section(course_id = "01076140",
+                        section_number = 16,
+                        teacher_id = "teacher1",
+                        max_student = 50,
+                        location = "ECC-811",
+                        schedule = "Mon 10:00-12:00",
+                        semester = "1",
+                        year = 2024)
+
+    # Calculus 1 - Section 17
+    kmitl.add_section(course_id = "01076140",
+                        section_number = 17,
+                        teacher_id = "teacher2",
+                        max_student = 50,
+                        location = "ECC-811",
+                        schedule = "Mon 10:00-12:00",
+                        semester = "1",
+                        year = 2024)
 def init():
-    init_user()
+    init_student()
+    init_teacher()
     init_course()
+    init_section()
