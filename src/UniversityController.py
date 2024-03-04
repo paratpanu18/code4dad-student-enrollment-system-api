@@ -4,6 +4,8 @@ from Student import Student
 from Teacher import Teacher
 from Course import Course
 from Section import Section
+from Faculty import Faculty
+from Major import Major
 from Util import get_current_user
 import Schema
 
@@ -221,6 +223,82 @@ class University():
             raise HTTPException(status_code=404, detail="Course not found")
         
         return [section.to_dict() for section in course]
+    
+    def get_all_faculties(self):
+        return [faculty.to_dict() for faculty in self.__faculty_list]
+    
+    def get_faculty_by_faculty_name(self, faculty_name):
+        for faculty in self.__faculty_list:
+            if faculty.faculty_name == faculty_name:
+                return faculty
+        return None
+    
+    def get_faculty_data_by_faculty_name(self, faculty_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        return faculty.to_dict()
+    
+    def add_faculty(self, faculty_name):
+        if self.get_faculty_by_faculty_name(faculty_name) is not None:
+            raise HTTPException(status_code=400, detail="Faculty already exists")
+        
+        new_faculty = Faculty(faculty_name)
+        self.__faculty_list.append(new_faculty)
+        return new_faculty.to_dict()
+    
+    def get_major_by_major_name(self, major_name):
+        for faculty in self.__faculty_list:
+            major = faculty.get_major_by_major_name(major_name)
+            if major is not None:
+                return major
+        return None
+    
+    def get_major_in_faculty(self, faculty_name, major_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        return major.to_dict()
+    
+    def add_major(self, major_name, academic_fees, faculty_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = self.get_major_by_major_name(major_name)
+        if major is not None:
+            raise HTTPException(status_code=400, detail="Major already exists")
+        
+        new_major = Major(major_name, academic_fees)
+        faculty.add_major(new_major)
+        return new_major.to_dict()
+    
+    def add_course_to_major(self, faculty_name, major_name, course_id, course_group):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        if course_group == "Core":
+            major.add_core_course(course)
+        elif course_group == "Elective":
+            major.add_elective_course(course)
+        else:
+            raise HTTPException(status_code=400, detail="Invalid course type. Course type must be one of the following: Core, Elective")
+        
+        return major.to_dict()
 
 kmitl = University(name="KMITL")
 
@@ -309,4 +387,35 @@ async def get_all_sections_by_course_id(course_id: str):
 @authenticator_router.post("/login")
 async def login(credentials: Schema.LoginCredentials):
     return kmitl.login(credentials.username, credentials.password)
+
+# University
+@university_router.get("/get_all_faculties")
+async def get_all_faculties():
+    return kmitl.get_all_faculties()
+
+@university_router.get("/get_faculty_by_faculty_name/{faculty_name}")
+async def get_faculty_by_faculty_name(faculty_name: str):
+    return kmitl.get_faculty_data_by_faculty_name(faculty_name)
+
+@university_router.get("/get_major_in_faculty/{faculty_name}/{major_name}")
+async def get_major_in_faculty(faculty_name: str, major_name: str):
+    return kmitl.get_major_in_faculty(faculty_name, major_name)
+
+@university_router.post("/add_faculty")
+async def add_faculty(faculty: Schema.InsertFaculty):
+    return kmitl.add_faculty(faculty.faculty_name)
+
+@university_router.post("/add_major")
+async def add_major(major: Schema.InsertMajor):
+    return kmitl.add_major(major.major_name, 
+                          major.academic_fees,  
+                          major.faculty_name)
+
+@university_router.post("/add_course_to_major")
+async def add_course_to_major(course: Schema.InsertCourseToMajor):
+    return kmitl.add_course_to_major(course.faculty_name, 
+                                    course.major_name, 
+                                    course.course_id, 
+                                    course.course_group)
+
 

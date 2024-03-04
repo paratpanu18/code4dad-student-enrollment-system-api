@@ -42,6 +42,19 @@ class Enroll(BaseModel):
     course_id: str
     section_number: int
 
+class InsertFaculty(BaseModel):
+    faculty_name: str
+
+class InsertMajor(BaseModel):
+    faculty_name: str
+    major_name: str
+    academic_fees: int
+
+class InsertCourseToMajor(BaseModel):
+    faculty_name: str
+    major_name: str
+    course_id: str
+    course_group: str
 
 class ChangeSection(BaseModel):
     student_id: str
