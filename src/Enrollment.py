@@ -22,8 +22,10 @@ class Enrollment():
     
     def to_dict(self):
         return {
-            "course": self.__section.course.course_name,
+            "course_id": self.__section.course.course_id,
+            "course_name": self.__section.course.course_name,
             "credit": self.__section.course.credit,
             "section_number": self.__section.section_number,
-            "grade": self.__grade if self.__grade else "N/A"
+            "schedule": self.__section.schedule,
+            "location": self.__section.location,
         }

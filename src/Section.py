@@ -35,6 +35,14 @@ class Section():
     def year(self):
         return self.__year
     
+    @property
+    def schedule(self): 
+        return self.__schedule
+    
+    @property
+    def location(self):
+        return self.__location
+    
     def to_dict(self):
         return {
             "course": self.__course.course_name,

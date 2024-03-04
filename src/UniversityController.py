@@ -104,7 +104,7 @@ class University():
         transcript = student.get_transcript_by_semester_and_year(semester, year)
 
         if transcript is not None:
-            return transcript.to_dict()
+            return transcript.get_enrollment_list()
         
         raise HTTPException(status_code=404, detail="Transcript not found")
 

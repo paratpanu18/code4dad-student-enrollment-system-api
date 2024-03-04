@@ -58,3 +58,10 @@ class Transcript():
             "enrollments": [enrollment.to_dict() for enrollment in self.__enrollment_list],
             "gps": self.__gps if self.__gps else "N/A"
         }
+    
+    def get_enrollment_list(self):
+        result = []
+        for enrollment in self.__enrollment_list:
+            result.append(enrollment.to_dict())
+
+        return result
