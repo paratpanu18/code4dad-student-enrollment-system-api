@@ -15,4 +15,4 @@ WORKDIR /app/src
 EXPOSE 8088
 
 # Run main.py when the container launches
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8088"]
