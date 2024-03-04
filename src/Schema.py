@@ -57,4 +57,14 @@ class InsertCourseToMajor(BaseModel):
     course_id: str
     course_group: str
 
-    
+class ChangeSection(BaseModel):
+    student_id: str
+    course_id: str
+    old_section_number: int
+    new_section_number: int
+
+class GradeAssignment(BaseModel):
+    student_id: str
+    course_id: str
+    section_number: int
+    grade: str

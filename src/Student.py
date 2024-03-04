@@ -53,7 +53,7 @@ class Student(Account):
         if not transcript:
             return False
         else:
-            return transcript.drop_enrollment(self, section)
+            return transcript.drop_enrollment(section)
     
     def get_transcript_by_semester_and_year(self, semester, year):
         for transcript in self.__transcript_list:
@@ -61,3 +61,9 @@ class Student(Account):
                 return transcript
             
         return None
+    
+    def get_all_transcripts(self):
+        result = []
+        for transcript in self.__transcript_list:
+            result.append(transcript.to_dict())
+        return result
