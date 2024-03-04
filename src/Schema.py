@@ -41,3 +41,6 @@ class Enroll(BaseModel):
     student_id: str
     course_id: str
     section_number: int
+
+class InsertFaculty(BaseModel):
+    faculty_name: str

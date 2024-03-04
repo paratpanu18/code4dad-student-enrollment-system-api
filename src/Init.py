@@ -128,6 +128,29 @@ def init_enrollment():
     kmitl.enroll_student_to_section(student_id = "66010533",
                                     course_id = "01076140",
                                     section_number = 16)
+    
+def init_faculty():
+    kmitl.add_faculty(faculty_name = "Engineering")
+    kmitl.add_faculty(faculty_name = "Architecture")
+    kmitl.add_faculty(faculty_name = "Science")
+    kmitl.add_faculty(faculty_name = "Industrial Education")
+    kmitl.add_faculty(faculty_name = "Information Technology")
+    kmitl.add_faculty(faculty_name = "Agro-Industry")
+    kmitl.add_faculty(faculty_name = "Management Science")
+
+def init_major():
+    kmitl.add_major(major_name = "Computer Engineering", academic_fees= 25000, elective_course_credit = 100, faculty_name = "Engineering")
+    kmitl.add_major(major_name = "Civil Engineering", academic_fees= 25000, elective_course_credit = 110, faculty_name = "Engineering")
+    kmitl.add_major(major_name = "Architecture", academic_fees= 25000, elective_course_credit = 95, faculty_name = "Architecture")
+    kmitl.add_major(major_name = "Physics", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
+    kmitl.add_major(major_name = "Chemistry", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
+    kmitl.add_major(major_name = "Biology", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Science")
+    kmitl.add_major(major_name = "Industrial Education", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Industrial Education")
+    kmitl.add_major(major_name = "Information Technology", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Information Technology")
+    kmitl.add_major(major_name = "Agro-Industry", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Agro-Industry")
+    kmitl.add_major(major_name = "Management Science", academic_fees= 25000, elective_course_credit = 90, faculty_name = "Management Science")
+
+                    
 
 
 def init():
@@ -136,3 +159,5 @@ def init():
     init_course()
     init_section()
     init_enrollment()
+    init_faculty()
+    init_major()
