@@ -20,8 +20,12 @@ app.include_router(student_router)
 app.include_router(teacher_router)
 app.include_router(course_router)
 
-init()
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+if __name__ == "__main__":
+    import uvicorn
+    init()
+    uvicorn.run(app, host="0.0.0.0", port=8080)
