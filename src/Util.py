@@ -1,5 +1,6 @@
 import re
 import hashlib
+import datetime
 
 from pydantic_settings import BaseSettings
 from jose import JWTError, jwt
@@ -51,3 +52,32 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if username:
         return username
     raise credential_exception
+
+def get_current_semester():
+    # Get the current semester and year
+    current_month = datetime.datetime.now().month
+    current_year = datetime.datetime.now().year
+
+    semester_1 = [6, 7, 8, 9, 10]
+    semester_2 = [11, 12, 1, 2, 3]
+
+    if current_month in semester_1:
+        return 1
+    elif current_month in semester_2:
+        return 2
+    else:
+        return 3 # For summer semester
+
+def get_current_academic_year():
+    current_year = datetime.datetime.now().year
+    current_month = datetime.datetime.now().month
+
+    SEMESTER_2 = 2
+    SUMMER = 3
+
+    if get_current_semester() == SEMESTER_2 and current_month in [1, 2, 3]:
+        return current_year - 1
+    elif get_current_semester() == SUMMER:
+        return current_year - 1
+    else:
+        return current_year

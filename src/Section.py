@@ -55,11 +55,10 @@ class Section():
             self.__wait_list.append(student)
             return False
         
-    def remove_student_from_section(self, student):
+    def drop_student_from_section(self, student):
         if student in self.__student_list:
             self.__student_list.remove(student)
             if len(self.__wait_list) > 0:
-                self.__student_list.append(self.__wait_list.pop(0))
-            return True
-        else:
-            return False
+                return self.__student_list.pop(0)
+            else:
+                return False

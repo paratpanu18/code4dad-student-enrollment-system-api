@@ -68,7 +68,46 @@ class University():
             return student.enroll_to_section(section)
         
         raise HTTPException(status_code=400, detail="Failed to enroll student to section. Section is full.")
-            
+    
+    def drop_student_from_section(self, student_id, course_id, section_number):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number(section_number)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        if student not in section.student_list:
+            raise HTTPException(status_code=400, detail="Student is not enrolled in section")
+        
+        # Section.drop_student_from_section() returns False if there is no student in the wait list
+        # Otherwise, it returns student object
+        next_student_in_wait_list = section.drop_student_from_section(student)
+        student.drop_from_section(section)
+
+        if next_student_in_wait_list is not False:
+            # In case there is a student in the wait list, enroll the student to the section
+            self.enroll_student_to_section(next_student_in_wait_list.student_id, course_id, section_number)
+
+        return student.to_dict()
+
+    def get_student_enrolled_courses(self, student_id, semester, year):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        transcript = student.get_transcript_by_semester_and_year(semester, year)
+
+        if transcript is not None:
+            return transcript.to_dict()
+        
+        raise HTTPException(status_code=404, detail="Transcript not found")
+
     def get_teacher_by_teacher_id(self, teacher_id):
         for user in self.__user_list:
             if isinstance(user, Teacher) and user.teacher_id == teacher_id:
@@ -153,6 +192,14 @@ async def get_student_by_student_id(student_id: str):
 @student_router.post("/enroll")
 async def enroll(enroll: Schema.Enroll):
     return kmitl.enroll_student_to_section(enroll.student_id, enroll.course_id, enroll.section_number)
+
+@student_router.post("/drop")
+async def drop(drop: Schema.Enroll):
+    return kmitl.drop_student_from_section(drop.student_id, drop.course_id, drop.section_number)
+
+@student_router.get("/get_student_enrolled_courses/{student_id}/{semester}/{year}")
+async def get_student_enrolled_courses(student_id: str, semester: int, year: int):
+    return kmitl.get_student_enrolled_courses(student_id, semester, year)
 
 # Teacher
 @teacher_router.post("/add_teacher")

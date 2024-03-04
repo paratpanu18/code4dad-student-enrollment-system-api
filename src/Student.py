@@ -38,23 +38,26 @@ class Student(Account):
 
         transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
 
-        if not transcript:
+        # If the student does not have a transcript for the semester and year, create a new transcript
+        if transcript is None:
             new_transcript = Transcript(section.semester, section.year)
             self.__transcript_list.append(new_transcript)
 
-            new_enrollment = Enrollment(student = self, 
-                                        section = section)
+            return new_transcript.add_enrollment(self, section)
 
-            return new_transcript.add_enrollment(new_enrollment)
+        return transcript.add_enrollment(self, section)
         
+    def drop_from_section(self, section):
+        transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
+
+        if not transcript:
+            return False
         else:
-            new_enrollment = Enrollment(student = self, 
-                                        section = section)
-            
-            return transcript.add_enrollment(new_enrollment)
+            return transcript.drop_enrollment(self, section)
     
     def get_transcript_by_semester_and_year(self, semester, year):
         for transcript in self.__transcript_list:
             if transcript.semester == semester and transcript.year == year:
                 return transcript
+            
         return None

@@ -19,9 +19,26 @@ class Transcript():
         self.__gps = None
         self.__gpa = None
 
-    def add_enrollment(self, enrollment):
-        self.__enrollment_list.append(enrollment)
-        return enrollment.to_dict()
+    @property
+    def semester(self):
+        return self.__semester
+    
+    @property
+    def year(self):
+        return self.__year
+
+    def add_enrollment(self, student, section):
+        new_enrollment = Enrollment(student, section)
+        self.__enrollment_list.append(new_enrollment)
+        return new_enrollment.to_dict()
+    
+    def drop_enrollment(self, section):
+        for enrollment in self.__enrollment_list:
+            if enrollment.section == section:
+                self.__enrollment_list.remove(enrollment)
+                return True
+        return False
+
 
     def calculate_gps(self):
         total_credit = 0

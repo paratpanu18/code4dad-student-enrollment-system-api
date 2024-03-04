@@ -20,6 +20,7 @@ app.include_router(student_router)
 app.include_router(teacher_router)
 app.include_router(course_router)
 
+init()
 
 @app.get("/")
 async def root():

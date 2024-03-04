@@ -34,7 +34,7 @@ class InsertSection(BaseModel):
     max_student: int
     location: str
     schedule: str
-    semester: str
+    semester: int
     year: int
 
 class Enroll(BaseModel):
