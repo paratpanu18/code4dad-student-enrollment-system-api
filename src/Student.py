@@ -1,55 +1,60 @@
 import datetime
-from fastapi import APIRouter
+
 from Account import Account
+from Transcript import Transcript
+from Enrollment import Enrollment
 
 class Student(Account):
-    type = "student"
-    def __init__(self, name, citizen_id, email, password, 
-                 student_id, major, faculty):
-        super().__init__(name, citizen_id, email, password)
+    def __init__(self, student_id, password, email, student_name, citizen_id, major, faculty, year_entered = datetime.datetime.now().year):
+        super().__init__(username = student_id, 
+                         password = password,
+                         email = email,
+                         name = student_name,
+                         citizen_id = citizen_id, 
+                         user_type = "student")
         
         self.__student_id = student_id 
         self.__major = major 
-        self.__faculty = faculty 
-        self.__year = datetime.datetime.now().year
+        self.__faculty = faculty
+        self.__year_entered = year_entered
         self.__transcript_list = []
-        self.__is_graduated = False
     
+    def to_dict(self):
+        return {
+            "student_id": self.__student_id,
+            "email": super().email,
+            "name": super().name,
+            "citizen_id": super().citizen_id,
+            "major": self.__major,
+            "faculty": self.__faculty,
+            "year_entered": self.__year_entered
+        }
+
     @property
     def student_id(self):
         return self.__student_id
     
-    @property
-    def major(self):
-        return self.__major
+    def enroll_to_section(self, section):
+
+        transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
+
+        if not transcript:
+            new_transcript = Transcript(section.semester, section.year)
+            self.__transcript_list.append(new_transcript)
+
+            new_enrollment = Enrollment(student = self, 
+                                        section = section)
+
+            return new_transcript.add_enrollment(new_enrollment)
+        
+        else:
+            new_enrollment = Enrollment(student = self, 
+                                        section = section)
+            
+            return transcript.add_enrollment(new_enrollment)
     
-    @property
-    def faculty(self):
-        return self.__faculty
-    
-    @property
-    def year(self):
-        return self.__year
-    
-    @property
-    def transcript_list(self):
-        return self.__transcript_list
-    
-    def get_data(self):
-        return {
-            "student_id" : self.__student_id,
-            "student_name" : super().name,
-            "faculty" : self.__faculty,
-            "year" : self.__year,
-            "email" : super().email,
-            "is_graduated" : self.__is_graduated
-        }
-    
-    def enroll(self):
-        pass
-    
-    def drop(self):
-        pass
-    
-    def change_section(self):
-        pass
+    def get_transcript_by_semester_and_year(self, semester, year):
+        for transcript in self.__transcript_list:
+            if transcript.semester == semester and transcript.year == year:
+                return transcript
+        return None

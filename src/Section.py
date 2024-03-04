@@ -1,48 +1,65 @@
-from University import kmitl
+from Course import Course
+from Teacher import Teacher
 
 class Section():
-    def __init__(self, section_id, course_id, teacher_id,
-                  max_student, room, datetime, year , semester):
-        self.__section_id = section_id
-        self.__course = kmitl.get_course_by_course_id(course_id)
-        self.__teacher = kmitl.get_teacher_by_teacher_id(teacher_id)
+    def __init__(self, course, section_number, teacher, max_student, location, schedule, semester, year):
+        self.__course = course
+        self.__section_number = section_number
+        self.__teacher = teacher
         self.__max_student = max_student
-        self.__current_student = 0
-        self.__datetime = datetime
-        self.__room = room
-        self.__year = year
+        self.__location = location
+        self.__schedule = schedule
         self.__semester = semester
+        self.__year = year
+
         self.__student_list = []
-        self.__co_requisite_section_list = []
-        self.__enrollment_queue = []
-
-    @property
-    def course_id(self):
-        return self.__course.course_id
+        self.__wait_list = []
     
     @property
-    def section_id(self):
-        return self.__section_id
+    def student_list(self):
+        return self.__student_list
     
-    def set_co_requisite_section(self, section):
-        self.__co_requisite_section_list.append(section)
-    
-    def add_student(self, student):
-        self.__student_list.append(student)
-        self.__current_student += 1
-    
-    def add_enrollment_queue(self, student):
-        self.__enrollment_queue.append(student)
+    @property
+    def course(self):
+        return self.__course
 
-    def get_data(self):
+    @property
+    def section_number(self):
+        return self.__section_number
+    
+    @property
+    def semester(self):
+        return self.__semester
+    
+    @property
+    def year(self):
+        return self.__year
+    
+    def to_dict(self):
         return {
-            "section_id" : self.__section_id,
-            "course" : self.__course.get_data(),
-            "teacher" : self.__teacher.get_data(),
-            "max_student" : self.__max_student,
-            "current_student" : self.__current_student,
-            "room" : self.__room,
-            "datetime" : self.__datetime,
-            "year" : self.__year,
-            "semester" : self.__semester
+            "course": self.__course.course_name,
+            "section_number": self.__section_number,
+            "teacher": self.__teacher.name,
+            "number_of_student": f'{len(self.__student_list)}/{self.__max_student}',
+            "location": self.__location,
+            "schedule": self.__schedule,
+            "semester": self.__semester,
+            "year": self.__year
         }
+
+    def add_student_to_section(self, student):
+        if len(self.__student_list) < self.__max_student:
+            self.__student_list.append(student)
+            return True
+        else:
+            self.__wait_list.append(student)
+            return False
+        
+    def remove_student_from_section(self, student):
+        if student in self.__student_list:
+            self.__student_list.remove(student)
+            if len(self.__wait_list) > 0:
+                self.__student_list.append(self.__wait_list.pop(0))
+            return True
+        else:
+            return False
