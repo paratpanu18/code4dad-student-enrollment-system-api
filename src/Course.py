@@ -43,6 +43,10 @@ class Course():
     def credit(self):
         return self.__credit
 
+    @property
+    def grading_type(self):
+        return self.__grading_type
+
     def to_dict(self):
         return {
             "course_id": self.__course_id,

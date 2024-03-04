@@ -96,7 +96,40 @@ class University():
             # In case there is a student in the wait list, enroll the student to the section
             self.enroll_student_to_section(next_student_in_wait_list.student_id, course_id, section_number)
 
-        return student.to_dict()
+        return student.get_transcript_by_semester_and_year(section.semester, section.year).to_dict()
+
+    def change_student_section(self, student_id, course_id, old_section_number, new_section_number):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        old_section = course.get_section_by_section_number(old_section_number)
+        if old_section is None:
+            raise HTTPException(status_code=404, detail="Old section not found")
+        
+        new_section = course.get_section_by_section_number(new_section_number)
+        if new_section is None:
+            raise HTTPException(status_code=404, detail="New section not found")
+        
+        if student not in old_section.student_list:
+            raise HTTPException(status_code=400, detail="Student is not enrolled in old section")
+        
+        transcript = student.get_transcript_by_semester_and_year(old_section.semester, old_section.year)
+        enrollment = transcript.get_enrollment_by_section(old_section)
+
+        if enrollment.grade != "N/A":
+            raise HTTPException(status_code=400, detail="Student already has a grade for the section")
+
+        if new_section.add_student_to_section(student):
+            self.drop_student_from_section(student_id, course_id, old_section_number)
+            return student.enroll_to_section(new_section)
+        
+        raise HTTPException(status_code=400, detail="Failed to enroll student to new section. Section is full.")
+            
 
     def get_student_enrolled_courses(self, student_id, semester, year):
         student = self.get_student_by_student_id(student_id)
@@ -129,6 +162,24 @@ class University():
         new_teacher = Teacher(teacher_id, password, email, name, citizen_id)
         self.__user_list.append(new_teacher)
         return new_teacher.to_dict()
+
+    def assign_grade_to_student(self, student_id, course_id, section_number, grade):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number(section_number)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        if student not in section.student_list:
+            raise HTTPException(status_code=400, detail="Student is not enrolled in section")
+        
+        return student.get_transcript_by_semester_and_year(section.semester, section.year).add_grade(section, grade)
     
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:
@@ -275,9 +326,17 @@ async def enroll(enroll: Schema.Enroll):
 async def drop(drop: Schema.Enroll):
     return kmitl.drop_student_from_section(drop.student_id, drop.course_id, drop.section_number)
 
+@student_router.post("/change_section")
+async def change_section(change: Schema.ChangeSection):
+    return kmitl.change_student_section(change.student_id, change.course_id, change.old_section_number, change.new_section_number)
+
 @student_router.get("/get_student_enrolled_courses/{student_id}/{semester}/{year}")
 async def get_student_enrolled_courses(student_id: str, semester: int, year: int):
     return kmitl.get_student_enrolled_courses(student_id, semester, year)
+
+@student_router.get("/get_all_student_transcripts/{student_id}")
+def get_all_student_transcript(student_id: str):
+    return kmitl.get_student_by_student_id(student_id).get_all_transcripts()
 
 # Teacher
 @teacher_router.post("/add_teacher")
@@ -291,6 +350,10 @@ async def add_teacher(teacher: Schema.InsertTeacher):
 @teacher_router.get("/get_teacher_by_teacher_id/{teacher_id}")
 async def get_teacher_by_teacher_id(teacher_id: str):
     return kmitl.get_teacher_data_by_teacher_id(teacher_id)
+
+@teacher_router.post("/assign_grade_to_student")
+def assign_grade_to_student(grade: Schema.GradeAssignment):
+    return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)
 
 # Course
 @course_router.get("/get_course_by_course_id/{course_id}")
