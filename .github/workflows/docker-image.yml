@@ -13,6 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo ALGORITHM=${{ secrets.ALGORITHM }} >> .env
+          cat .env
+
       - name: Remove old Docker container
         run: |
           docker rm -f api-server || true
