@@ -345,8 +345,7 @@ async def add_faculty(faculty: Schema.InsertFaculty):
 @university_router.post("/add_major")
 async def add_major(major: Schema.InsertMajor):
     return kmitl.add_major(major.major_name, 
-                          major.academic_fees, 
-                          major.elective_course_credit, 
+                          major.academic_fees,  
                           major.faculty_name)
 
 @university_router.post("/add_course_to_major")
