@@ -67,3 +67,10 @@ class Student(Account):
         for transcript in self.__transcript_list:
             result.append(transcript.to_dict())
         return result
+    
+    def is_passed_course(self, course):
+        for transcript in self.__transcript_list:
+            for enrollment in transcript.enrollment_list:
+                if enrollment.section.course == course and enrollment.grade != "N/A":
+                    return True
+        return False

@@ -51,20 +51,20 @@ def init_teacher():
     kmitl.add_teacher(teacher_id = "teacher1",
                         password = "12345",
                         email = "teacher1@kmitl.ac.th",
-                        name = "Teacher 1",
+                        name = "Sakchai Thipchaksurat",
                         citizen_id = "1234567890123")
     
     kmitl.add_teacher(teacher_id = "teacher2",
                         password = "12345",
                         email = "teacher2@kmitl.ac.th",
-                        name = "Teacher 2",
+                        name = "Jirasak Sittigorn",
                         citizen_id = "1234567890124")
     
     kmitl.add_teacher(teacher_id = "teacher3",
                         password = "12345",
                         email = "teacher3@kmitl.ac.th",
-                        name = "Teacher 3",
-                        citizen_id = "1234567890125")
+                        name = "Thananchai Threepak",
+                        citizen_id = "1458758962557")
 
 def init_course():
 
@@ -82,6 +82,15 @@ def init_course():
                      course_type = CURRICULUM, 
                      grading_type = GRADE)
     
+    kmitl.add_course(course_name = "Calculus 2",
+                        course_id = "01076141", 
+                        credit = 3, 
+                        course_type = CURRICULUM, 
+                        grading_type = GRADE)
+    
+    kmitl.add_pre_requisite_to_course("01076141", "01076140")       # Calculus 2 requires Calculus 1
+    
+
     kmitl.add_course(course_name = "Introduction to Computer Engineering", 
                      course_id = "01076001", 
                      credit = 3, 
@@ -118,17 +127,19 @@ def init_course():
                      course_type = FACULTY, 
                      grading_type = SATISFACTORY)
     
-    kmitl.add_course(course_name = "Fundation English1",
+    kmitl.add_course(course_name = "Foundation English1",
                      course_id = "90641002", 
                      credit = 3, 
                      course_type = GENED, 
                      grading_type = SATISFACTORY)
     
-    kmitl.add_course(course_name = "Fundation English2",
+    kmitl.add_course(course_name = "Foundation English2",
                         course_id = "90641003", 
                         credit = 3, 
                         course_type = GENED, 
                         grading_type = SATISFACTORY)
+    
+    kmitl.add_pre_requisite_to_course("90641003", "90641002")       # Foundation English2 requires Foundation English1
     
     # Science courses
     kmitl.add_course(course_name="Physics 1",
@@ -250,28 +261,48 @@ def init_section():
                         section_number = 16,
                         teacher_id = "teacher1",
                         max_student = 50,
-                        location = "ECC-811",
-                        schedule = "Mon 10:00-12:00",
+                        location = "ECC-802",
+                        schedule = "Mon 09:00 - 12:00",
                         semester = 1,
                         year = 2024)
 
     # Calculus 1 - Section 17
     kmitl.add_section(course_id = "01076140",
                         section_number = 17,
-                        teacher_id = "teacher2",
+                        teacher_id = "teacher1",
                         max_student = 50,
-                        location = "ECC-811",
-                        schedule = "Mon 10:00-12:00",
+                        location = "ECC-802",
+                        schedule = "Mon 13:00 - 16:00",
+                        semester = 1,
+                        year = 2024)
+    
+    # Calculus 2 - Section 16
+    kmitl.add_section(course_id = "01076141",
+                        section_number = 16,
+                        teacher_id = "teacher1",
+                        max_student = 50,
+                        location = "ECC-802",
+                        schedule = "Tue 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+    
+    # Calculus 2 - Section 17
+    kmitl.add_section(course_id = "01076141",
+                        section_number = 17,
+                        teacher_id = "teacher1",
+                        max_student = 50,
+                        location = "ECC-802",
+                        schedule = "Tue 13:00 - 16:00",
                         semester = 1,
                         year = 2024)
 
     # Introduction to Computer Engineering - Section 16
     kmitl.add_section(course_id = "01076001",
                         section_number = 16,
-                        teacher_id = "teacher1",
+                        teacher_id = "teacher2",
                         max_student = 50,
                         location = "ECC-811",
-                        schedule = "Mon 10:00-12:00",
+                        schedule = "Wed 13:00 - 16:30",
                         semester = 1,
                         year = 2024)
     
@@ -281,7 +312,27 @@ def init_section():
                         teacher_id = "teacher2",
                         max_student = 50,
                         location = "ECC-811",
-                        schedule = "Mon 10:00-12:00",
+                        schedule = "Wed 08:30 - 12:00",
+                        semester = 1,
+                        year = 2024)
+    
+    # Programming Fundamental - Section 16
+    kmitl.add_section(course_id = "01076002",
+                        section_number = 16,
+                        teacher_id = "teacher3",
+                        max_student = 50,
+                        location = "ECC-810",
+                        schedule = "Mon 13:00 - 16:00",
+                        semester = 1,
+                        year = 2024)
+    
+    # Programming Fundamental - Section 17
+    kmitl.add_section(course_id = "01076002",
+                        section_number = 17,
+                        teacher_id = "teacher3",
+                        max_student = 50,
+                        location = "ECC-810",
+                        schedule = "Mon 09:00 - 12:00",
                         semester = 1,
                         year = 2024)
     
@@ -295,32 +346,47 @@ def init_section():
                         year = 2024)
 
 def init_enrollment():
+    # 66010542
     kmitl.enroll_student_to_section(student_id = "66010542",
-                                    course_id = "01076140",
+                                    course_id = "01076140",     # Calculus 1
+                                    section_number = 16)
+    
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                    course_id = "01076001",     # Introduction to Computer Engineering
+                                    section_number = 16)
+    
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                    course_id = "01076002",     # Programming Fundamental
+                                    section_number = 16)
+    
+
+    # 66010572
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                    course_id = "01076140",     # Calculus 1
+                                    section_number = 17)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                    course_id = "01076001",     # Introduction to Computer Engineering
+                                    section_number = 17)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                    course_id = "01076002",     # Programming Fundamental
+                                    section_number = 17)
+    
+
+    # 66010533
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                    course_id = "01076140",     # Calculus 1
                                     section_number = 16)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
-                                    course_id = "01076140",
+                                    course_id = "01076001",     # Introduction to Computer Engineering
                                     section_number = 16)
     
-    kmitl.enroll_student_to_section(student_id = "66010572",
-                                    course_id = "01076140",
-                                    section_number = 17)
-    
+
+    # 66010587
     kmitl.enroll_student_to_section(student_id = "66010587",
                                     course_id = "01076140",
-                                    section_number = 17)
-    
-    kmitl.enroll_student_to_section(student_id = "66010542",
-                                    course_id = "01076001",
-                                    section_number = 16)
-    
-    kmitl.enroll_student_to_section(student_id = "66010533",
-                                    course_id = "01076001",
-                                    section_number = 16)
-    
-    kmitl.enroll_student_to_section(student_id = "66010572",
-                                    course_id = "01076001",
                                     section_number = 17)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
@@ -492,8 +558,6 @@ def init_add_course_to_major():
                                course_group="Core")
 
                     
-
-
 def init():
     init_student()
     init_teacher()
