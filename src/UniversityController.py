@@ -305,6 +305,29 @@ class University():
         
         return major.to_dict()
     
+    def get_course_by_course_type(self, faculty_name, major_name, semester, year, course_type):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        course_list = []
+        for course in self.__course_list:
+            if course.get_section_by_semester_year(semester, year) and course.course_type == course_type:
+                course_list.append(course.to_dict())
+        
+        return course_list
+    
+    def get_all_sections_taught_by_teacher_id(self, teacher_id, semester, year):
+        teacher = self.get_teacher_by_teacher_id(teacher_id)
+        if teacher is None:
+            raise HTTPException(status_code=404, detail="Teacher not found")
+        
+        return teacher.get_all_sections_taught_by_semester_and_year(semester, year)
+                
     def get_all_section_by_semester_and_year(self, semester, year):
         result = []
         for course in self.__course_list:
@@ -323,6 +346,7 @@ class University():
             raise HTTPException(status_code=404, detail="Pre-requisite course not found")
         
         return course.add_pre_requisite_course(pre_requisite_course)
+
 
 kmitl = University(name="KMITL")
 
@@ -379,10 +403,18 @@ async def get_teacher_by_teacher_id(teacher_id: str):
 def assign_grade_to_student(grade: Schema.GradeAssignment):
     return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)
 
+@teacher_router.get("/get_all_sections_taught_by_teacher_id/{teacher_id}/{semester}/{year}")
+def get_all_sections_taught_by_teacher_id(teacher_id: str, semester: int, year: int):
+    return kmitl.get_all_sections_taught_by_teacher_id(teacher_id, semester, year)
+
 # Course
 @course_router.get("/get_course_by_course_id/{course_id}")
 async def get_course_by_course_id(course_id: str):
     return kmitl.get_course_data_by_course_id(course_id)
+
+@course_router.get("/get_course_by_course_type/{faculty_name}/{major_name}/{semester}/{year}/{course_type}")
+async def get_course_by_course_type(faculty_name: str, major_name: str, semester: int, year: int, course_type: str):
+    return kmitl.get_course_by_course_type(faculty_name, major_name, semester, year, course_type)
 
 @course_router.post("/add_course")
 async def add_course(course: Schema.InsertCourse):

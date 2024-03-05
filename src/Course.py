@@ -36,6 +36,10 @@ class Course():
         return self.__course_name
     
     @property
+    def course_type(self):
+        return self.__course_type
+    
+    @property
     def section_list(self):
         return self.__section_list
     
@@ -46,7 +50,7 @@ class Course():
     @property
     def grading_type(self):
         return self.__grading_type
-    
+      
     @property
     def pre_requisite_course_list(self):
         return self.__pre_requisite_course_list
@@ -57,6 +61,14 @@ class Course():
         
         self.__pre_requisite_course_list.append(pre_requisite_course)
         return pre_requisite_course.to_dict()
+    
+    def get_section_by_semester_year(self, semester, year):
+        result = []
+        for section in self.__section_list:
+            if section.semester == semester and section.year == year:
+                result.append(section)
+        return result
+       
 
     def to_dict(self):
         return {

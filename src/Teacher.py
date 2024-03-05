@@ -10,7 +10,7 @@ class Teacher(Account):
                          user_type = "teacher")
         
         self.__teacher_id = teacher_id
-        self.__section_taght = []
+        self.__section_taught = []
     
     @property
     def teacher_id(self):
@@ -22,10 +22,19 @@ class Teacher(Account):
     
     @property
     def section_taught(self):
-        return self.__section_taght
+        return self.__section_taught
     
     def add_taught_section(self, section):
-        self.__section_taght.append(section)
+        self.__section_taught.append(section)
+
+    def get_all_sections_taught_by_semester_and_year(self, semester, year):
+        sections = []
+        for section in self.__section_taught:
+            if section.semester == semester and section.year == year:
+                sections.append(section.to_dict())
+        return sections
+        
+
 
     
     def to_dict(self):

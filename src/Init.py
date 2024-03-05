@@ -37,6 +37,15 @@ def init_student():
                       citizen_id = "5132523735261", 
                       major = "Computer Engineering", 
                       faculty = "Engineering")
+    
+    kmitl.add_student(student_id = "66010544",
+                      password = "12345",
+                      email = "66010544@kmitl.ac.th",
+                      name = "Pasut Siriwan",
+                      citizen_id = "1234567890123",
+                      major = "Computer Engineering",
+                      faculty = "Engineering")
+
 
 def init_teacher():
     kmitl.add_teacher(teacher_id = "teacher1",
@@ -53,9 +62,10 @@ def init_teacher():
     
     kmitl.add_teacher(teacher_id = "teacher3",
                         password = "12345",
-                        email = "teacher3@kmitl.ac.th",
+                        email = "teacher3@kmitl.ac.th",                      
                         name = "Thananchai Threepak",
                         citizen_id = "1458758962557")
+
 
 def init_course():
 
@@ -324,6 +334,15 @@ def init_section():
                         max_student = 50,
                         location = "ECC-810",
                         schedule = "Mon 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+    
+    kmitl.add_section(course_id = "90641001",
+                        section_number = 1,
+                        teacher_id = "teacher3",
+                        max_student = 50,
+                        location = "E12-101",
+                        schedule = "Mon 10:00-12:00",
                         semester = 1,
                         year = 2024)
 
