@@ -51,7 +51,7 @@ class Course():
     def grading_type(self):
         return self.__grading_type
     
-    def get_course_by_semester_year(self, semester, year):
+    def get_section_by_semester_year(self, semester, year):
         result = []
         for section in self.__section_list:
             if section.semester == semester and section.year == year:

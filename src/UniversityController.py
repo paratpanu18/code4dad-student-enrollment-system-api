@@ -311,7 +311,7 @@ class University():
         
         course_list = []
         for course in self.__course_list:
-            if course.get_course_by_semester_year(semester, year) and course.course_type == course_type:
+            if course.get_section_by_semester_year(semester, year) and course.course_type == course_type:
                 course_list.append(course.to_dict())
         
         return course_list
