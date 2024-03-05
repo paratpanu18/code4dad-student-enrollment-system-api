@@ -46,6 +46,17 @@ class Course():
     @property
     def grading_type(self):
         return self.__grading_type
+    
+    @property
+    def pre_requisite_course_list(self):
+        return self.__pre_requisite_course_list
+    
+    def add_pre_requisite_course(self, pre_requisite_course):
+        if self in pre_requisite_course.__pre_requisite_course_list:
+            raise HTTPException(status_code=400, detail="Circular pre-requisite detected")
+        
+        self.__pre_requisite_course_list.append(pre_requisite_course)
+        return pre_requisite_course.to_dict()
 
     def to_dict(self):
         return {
@@ -53,7 +64,8 @@ class Course():
             "course_name": self.__course_name,
             "credit": self.__credit,
             "course_type": self.__course_type,
-            "grading_type": self.__grading_type
+            "grading_type": self.__grading_type,
+            "pre_requisite_course_list": [course.course_name for course in self.__pre_requisite_course_list]
         }
     
     def get_section_by_section_number(self, section_number):
