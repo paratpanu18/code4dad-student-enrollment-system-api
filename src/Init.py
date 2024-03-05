@@ -279,6 +279,30 @@ def init_enrollment():
                                     course_id = "01076140",
                                     section_number = 16)
     
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                    course_id = "01076140",
+                                    section_number = 17)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                    course_id = "01076140",
+                                    section_number = 17)
+    
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                    course_id = "01076001",
+                                    section_number = 16)
+    
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                    course_id = "01076001",
+                                    section_number = 16)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                    course_id = "01076001",
+                                    section_number = 17)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                    course_id = "01076001",
+                                    section_number = 17)
+    
     
 def init_faculty():
     kmitl.add_faculty(faculty_name = "Engineering")
