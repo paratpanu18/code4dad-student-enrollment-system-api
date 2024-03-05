@@ -6,7 +6,7 @@ from Course import Course
 from Section import Section
 from Faculty import Faculty
 from Major import Major
-from Util import get_current_user
+from Util import get_current_semester, get_current_academic_year
 import Schema
 
 university_router = APIRouter(tags=["university"])
@@ -66,6 +66,11 @@ class University():
         if section is None:
             raise HTTPException(status_code=404, detail="Section not found")
         
+        # Check if student passed the pre-requisite courses
+        for pre_requisite_course in course.pre_requisite_course_list:
+            if not student.is_passed_course(pre_requisite_course):
+                raise HTTPException(status_code=400, detail="Student has not passed the pre-requisite course: " + pre_requisite_course.course_id)
+
         if section.add_student_to_section(student):
             return student.enroll_to_section(section)
         
@@ -299,6 +304,25 @@ class University():
             raise HTTPException(status_code=400, detail="Invalid course type. Course type must be one of the following: Core, Elective")
         
         return major.to_dict()
+    
+    def get_all_section_by_semester_and_year(self, semester, year):
+        result = []
+        for course in self.__course_list:
+            for section in course.section_list:
+                if section.semester == semester and section.year == year:
+                    result.append(section.to_dict())
+        return result
+    
+    def add_pre_requisite_to_course(self, course_id, pre_requisite_course_id):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        pre_requisite_course = self.get_course_by_course_id(pre_requisite_course_id)
+        if pre_requisite_course is None:
+            raise HTTPException(status_code=404, detail="Pre-requisite course not found")
+        
+        return course.add_pre_requisite_course(pre_requisite_course)
 
 kmitl = University(name="KMITL")
 
@@ -382,6 +406,14 @@ async def add_section(section: Schema.InsertSection):
 @course_router.get("/get_all_sections_by_course_id/{course_id}")
 async def get_all_sections_by_course_id(course_id: str):
     return kmitl.get_all_sections_data_by_course_id(course_id)
+
+@course_router.get("/get_all_section_by_semester_and_year/{semester}/{year}")
+async def get_all_section_by_semester_and_year(semester: int, year: int):
+    return kmitl.get_all_section_by_semester_and_year(semester, year)
+
+@course_router.post("/add_pre_requisite_to_course")
+async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
+    return kmitl.add_pre_requisite_to_course(pre_requisite.course_id, pre_requisite.pre_requisite_course_id)
 
 # Authenticator
 @authenticator_router.post("/login")

@@ -67,3 +67,7 @@ class GradeAssignment(BaseModel):
     course_id: str
     section_number: int
     grade: str
+
+class InsertPreRequisite(BaseModel):
+    course_id: str
+    pre_requisite_course_id: str
