@@ -45,7 +45,8 @@ class Section():
     
     def to_dict(self):
         return {
-            "course": self.__course.course_name,
+            "course_id": self.__course.course_id,
+            "course_name": self.__course.course_name,
             "section_number": self.__section_number,
             "teacher": self.__teacher.name,
             "number_of_student": f'{len(self.__student_list)}/{self.__max_student}',

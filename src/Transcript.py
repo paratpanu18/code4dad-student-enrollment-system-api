@@ -29,6 +29,10 @@ class Transcript():
     def year(self):
         return self.__year
 
+    @property
+    def enrollment_list(self):
+        return self.__enrollment_list
+
     def add_enrollment(self, student, section):
         new_enrollment = Enrollment(student, section)
         self.__enrollment_list.append(new_enrollment)
