@@ -350,49 +350,69 @@ def init_enrollment():
     # 66010542
     kmitl.enroll_student_to_section(student_id = "66010542",
                                     course_id = "01076140",     # Calculus 1
-                                    section_number = 16)
+                                    section_number = 16,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                     course_id = "01076001",     # Introduction to Computer Engineering
-                                    section_number = 16)
+                                    section_number = 16,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                     course_id = "01076002",     # Programming Fundamental
-                                    section_number = 16)
+                                    section_number = 16,
+                                    semester=1,
+                                    year=2024)
     
 
     # 66010572
     kmitl.enroll_student_to_section(student_id = "66010572",
                                     course_id = "01076140",     # Calculus 1
-                                    section_number = 17)
+                                    section_number = 17,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                     course_id = "01076001",     # Introduction to Computer Engineering
-                                    section_number = 17)
+                                    section_number = 17,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                     course_id = "01076002",     # Programming Fundamental
-                                    section_number = 17)
+                                    section_number = 17,
+                                    semester=1,
+                                    year=2024)
     
 
     # 66010533
     kmitl.enroll_student_to_section(student_id = "66010533",
                                     course_id = "01076140",     # Calculus 1
-                                    section_number = 16)
+                                    section_number = 16,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                     course_id = "01076001",     # Introduction to Computer Engineering
-                                    section_number = 16)
+                                    section_number = 16,
+                                    semester=1,
+                                    year=2024)
     
 
     # 66010587
     kmitl.enroll_student_to_section(student_id = "66010587",
                                     course_id = "01076140",
-                                    section_number = 17)
+                                    section_number = 17,
+                                    semester=1,
+                                    year=2024)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
                                     course_id = "01076001",
-                                    section_number = 17)
+                                    section_number = 17,
+                                    semester=1,
+                                    year=2024)
     
     
 def init_faculty():

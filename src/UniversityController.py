@@ -48,7 +48,7 @@ class University():
         self.__user_list.append(new_student)
         return new_student.to_dict()
     
-    def enroll_student_to_section(self, student_id, course_id, section_number):
+    def enroll_student_to_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
         if student is None:
             raise HTTPException(status_code=404, detail="Student not found")
@@ -62,19 +62,19 @@ class University():
             if student in section.student_list:
                 raise HTTPException(status_code=400, detail="Student already enrolled in course")
 
-        section = course.get_section_by_section_number(section_number)
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
         if section is None:
             raise HTTPException(status_code=404, detail="Section not found")
         
         # Check if student passed the pre-requisite courses
         for pre_requisite_course in course.pre_requisite_course_list:
             if not student.is_passed_course(pre_requisite_course):
-                raise HTTPException(status_code=400, detail="Student has not passed the pre-requisite course: " + pre_requisite_course.course_id)
+                raise HTTPException(status_code=400, detail=f'Student has not passed the pre-requisite course: ({pre_requisite_course.course_id}) {pre_requisite_course.course_name}')
 
         if section.add_student_to_section(student):
             return student.enroll_to_section(section)
         
-        raise HTTPException(status_code=400, detail="Failed to enroll student to section. Section is full.")
+        return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
     
     def drop_student_from_section(self, student_id, course_id, section_number):
         student = self.get_student_by_student_id(student_id)
@@ -92,49 +92,21 @@ class University():
         if student not in section.student_list:
             raise HTTPException(status_code=400, detail="Student is not enrolled in section")
         
-        # Section.drop_student_from_section() returns False if there is no student in the wait list
-        # Otherwise, it returns student object
-        next_student_in_wait_list = section.drop_student_from_section(student)
-        student.drop_from_section(section)
+        student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+        
+        section.drop_student_from_section(student)
+        student_transcript.drop_enrollment_from_transcript(section)
 
-        if next_student_in_wait_list is not False:
-            # In case there is a student in the wait list, enroll the student to the section
-            self.enroll_student_to_section(next_student_in_wait_list.student_id, course_id, section_number)
+        next_student_in_wait_list = section.get_next_student_in_wait_list()
 
-        return student.get_transcript_by_semester_and_year(section.semester, section.year).to_dict()
+        if next_student_in_wait_list:
+            self.enroll_student_to_section(next_student_in_wait_list.student_id, course.course_id, section.section_number)
+        
+        return student_transcript.to_dict()
 
     def change_student_section(self, student_id, course_id, old_section_number, new_section_number):
-        student = self.get_student_by_student_id(student_id)
-        if student is None:
-            raise HTTPException(status_code=404, detail="Student not found")
-        
-        course = self.get_course_by_course_id(course_id)
-        if course is None:
-            raise HTTPException(status_code=404, detail="Course not found")
-        
-        old_section = course.get_section_by_section_number(old_section_number)
-        if old_section is None:
-            raise HTTPException(status_code=404, detail="Old section not found")
-        
-        new_section = course.get_section_by_section_number(new_section_number)
-        if new_section is None:
-            raise HTTPException(status_code=404, detail="New section not found")
-        
-        if student not in old_section.student_list:
-            raise HTTPException(status_code=400, detail="Student is not enrolled in old section")
-        
-        transcript = student.get_transcript_by_semester_and_year(old_section.semester, old_section.year)
-        enrollment = transcript.get_enrollment_by_section(old_section)
-
-        if enrollment.grade != "N/A":
-            raise HTTPException(status_code=400, detail="Student already has a grade for the section")
-
-        if new_section.add_student_to_section(student):
-            self.drop_student_from_section(student_id, course_id, old_section_number)
-            return student.enroll_to_section(new_section)
-        
-        raise HTTPException(status_code=400, detail="Failed to enroll student to new section. Section is full.")
-            
+        self.drop_student_from_section(student_id, course_id, old_section_number)
+        return self.enroll_student_to_section(student_id, course_id, new_section_number)
 
     def get_student_enrolled_courses(self, student_id, semester, year):
         student = self.get_student_by_student_id(student_id)
@@ -144,7 +116,7 @@ class University():
         transcript = student.get_transcript_by_semester_and_year(semester, year)
 
         if transcript is not None:
-            return transcript.get_enrollment_list()
+            return transcript.get_all_enrollment_list()
         
         raise HTTPException(status_code=404, detail="Transcript not found")
 
@@ -184,7 +156,9 @@ class University():
         if student not in section.student_list:
             raise HTTPException(status_code=400, detail="Student is not enrolled in section")
         
-        return student.get_transcript_by_semester_and_year(section.semester, section.year).add_grade(section, grade)
+        student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+
+        return student_transcript.assign_grade_to_enrollment(section, grade)
     
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:

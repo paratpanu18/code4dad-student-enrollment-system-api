@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 
+from Util import get_current_semester, get_current_academic_year
+
 COURSE_TYPE = ["gened", "faculty", "curriculum"]
 GRADING_TYPE = ["grade", "satisfactory"]
 
@@ -69,7 +71,6 @@ class Course():
                 result.append(section)
         return result
        
-
     def to_dict(self):
         return {
             "course_id": self.__course_id,
@@ -80,9 +81,9 @@ class Course():
             "pre_requisite_course_list": [course.course_name for course in self.__pre_requisite_course_list]
         }
     
-    def get_section_by_section_number(self, section_number):
+    def get_section_by_section_number_semester_year(self, section_number, semester, year):
         for section in self.__section_list:
-            if section.section_number == section_number:
+            if section.section_number == section_number and section.semester == semester and section.year == year:
                 return section
         return None
     
@@ -93,7 +94,6 @@ class Course():
                section.year == new_section.year:
                 
                 raise HTTPException(status_code=400, detail="Section already exists")
-
 
         self.__section_list.append(new_section)
         return new_section.to_dict()

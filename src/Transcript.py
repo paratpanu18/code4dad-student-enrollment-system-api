@@ -38,11 +38,10 @@ class Transcript():
         self.__enrollment_list.append(new_enrollment)
         return new_enrollment.to_dict()
     
-    def drop_enrollment(self, section):
+    def drop_enrollment_from_transcript(self, section):
         for enrollment in self.__enrollment_list:
             if enrollment.section == section and enrollment.grade == "N/A":
                 self.__enrollment_list.remove(enrollment)
-                self.calculate_gps()
                 return True
         raise HTTPException(status_code=400, detail="Student is not enrolled in the section or the grade is already given")
 
@@ -66,18 +65,18 @@ class Transcript():
             "gps": self.__gps if self.__gps else "N/A"
         }
     
-    def get_enrollment_list(self):
+    def get_all_enrollment_list(self):
         result = []
         for enrollment in self.__enrollment_list:
             result.append(enrollment.to_dict())
 
         return result
     
-    def add_grade(self, section, grade):
+    def assign_grade_to_enrollment(self, section, grade):
         for enrollment in self.__enrollment_list:
             if enrollment.section == section:
                 enrollment.grade = grade
-                self.calculate_gps()
+
                 return enrollment.to_dict()
         raise ValueError("Student is not enrolled in the section")
     

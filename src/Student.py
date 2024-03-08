@@ -46,14 +46,6 @@ class Student(Account):
             return new_transcript.add_enrollment(self, section)
 
         return transcript.add_enrollment(self, section)
-        
-    def drop_from_section(self, section):
-        transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
-
-        if not transcript:
-            return False
-        else:
-            return transcript.drop_enrollment(section)
     
     def get_transcript_by_semester_and_year(self, semester, year):
         for transcript in self.__transcript_list:
