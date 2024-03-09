@@ -1,5 +1,6 @@
 from Course import Course
 from Teacher import Teacher
+from Student import Student
 
 class Section():
     def __init__(self, course, section_number, teacher, max_student, location, schedule, semester, year):
@@ -71,3 +72,9 @@ class Section():
                 return self.__student_list.pop(0)
             else:
                 return False
+            
+    def get_grade_and_score_student(self):
+        result = []
+        for student in self.__student_list:
+            result.append(student.get_grade_and_score_by_section(self))
+        return result

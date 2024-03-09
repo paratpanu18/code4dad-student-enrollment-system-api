@@ -34,6 +34,18 @@ class Student(Account):
     def student_id(self):
         return self.__student_id
     
+    @property
+    def major(self):
+        return self.__major
+    
+    @property
+    def faculty(self):
+        return self.__faculty
+    
+    @property
+    def year_entered(self):
+        return self.__year_entered
+    
     def enroll_to_section(self, section):
 
         transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
@@ -74,3 +86,11 @@ class Student(Account):
                 if enrollment.section.course == course and enrollment.grade != "N/A":
                     return True
         return False
+    
+    def get_grade_and_score_by_section(self, section):
+        for transcript in self.__transcript_list:
+            for enrollment in transcript.enrollment_list:
+                if enrollment.section == section:
+                    return enrollment.to_dict_with_student()
+        return None
+    

@@ -2,10 +2,12 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from Student import Student
 from Teacher import Teacher
+from Admin import Admin
 from Course import Course
 from Section import Section
 from Faculty import Faculty
 from Major import Major
+from Grade import Grade
 from Util import get_current_semester, get_current_academic_year
 import Schema
 
@@ -13,6 +15,7 @@ university_router = APIRouter(tags=["university"])
 authenticator_router = APIRouter(tags=["authenticator"])
 student_router = APIRouter(tags=["student"])
 teacher_router = APIRouter(tags=["teacher"])
+admin_router = APIRouter(tags=["admin"])
 course_router = APIRouter(tags=["course and section"])
 
 class University():
@@ -321,6 +324,23 @@ class University():
         
         return course_list
     
+    def get_all_course_in_major(self, faculty_name, major_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        course_list = []
+        for course in self.__course_list:
+            if course in major.core_course_list or course in major.elective_course_list:
+                course_list.append(course.to_dict())
+        
+        return course_list
+
+    
     def get_all_sections_taught_by_teacher_id(self, teacher_id, semester, year):
         teacher = self.get_teacher_by_teacher_id(teacher_id)
         if teacher is None:
@@ -346,6 +366,53 @@ class University():
             raise HTTPException(status_code=404, detail="Pre-requisite course not found")
         
         return course.add_pre_requisite_course(pre_requisite_course)
+    
+    def get_detail_student_in_section(self, course_id, section_number):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number(section_number)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        return section.get_grade_and_score_student()
+    
+    def get_all_student_in_major(self, faculty_name, major_name):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        student_in_major_list = []
+        for student in self.__user_list:
+            if isinstance(student, Student) and student.major == major_name and student.faculty == faculty_name:
+                student_in_major_list.append(student.to_dict())
+        
+        return student_in_major_list
+    
+    def get_admin_by_admin_id(self, admin_id):
+        for user in self.__user_list:
+            if isinstance(user, Admin) and user.admin_id == admin_id:
+                return user
+        return None
+    
+    def get_data_admin_by_admin_id(self, admin_id):
+        admin = self.get_admin_by_admin_id(admin_id)
+        if admin is None:
+            raise HTTPException(status_code=404, detail="Admin not found")
+        return admin.to_dict()
+       
+    def add_admin(self, admin_id, password, email, name, citizen_id):
+        if self.get_admin_by_admin_id(admin_id) is not None:
+            raise HTTPException(status_code=400, detail="Admin ID already exists")
+        
+        new_admin = Admin(admin_id, password, email, name, citizen_id)
+        self.__user_list.append(new_admin)
+        return new_admin.to_dict()
 
 
 kmitl = University(name="KMITL")
@@ -447,12 +514,21 @@ async def get_all_section_by_semester_and_year(semester: int, year: int):
 async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
     return kmitl.add_pre_requisite_to_course(pre_requisite.course_id, pre_requisite.pre_requisite_course_id)
 
+@course_router.get("/get_detail_student_in_section/{course_id}/{section_number}")
+async def get_detail_student_in_section(course_id: str, section_number: int):
+    return kmitl.get_detail_student_in_section(course_id, section_number)
+
+
 # Authenticator
 @authenticator_router.post("/login")
 async def login(credentials: Schema.LoginCredentials):
     return kmitl.login(credentials.username, credentials.password)
 
 # University
+@university_router.get("/get_all_course_in_major/{faculty_name}/{major_name}")
+async def get_all_course_in_major(faculty_name: str, major_name: str):
+    return kmitl.get_all_course_in_major(faculty_name, major_name)
+
 @university_router.get("/get_all_faculties")
 async def get_all_faculties():
     return kmitl.get_all_faculties()
@@ -482,4 +558,21 @@ async def add_course_to_major(course: Schema.InsertCourseToMajor):
                                     course.course_id, 
                                     course.course_group)
 
+@university_router.get("/get_all_student_in_major/{faculty_name}/{major_name}")
+async def get_all_student_in_major(faculty_name: str, major_name: str):
+    return kmitl.get_all_student_in_major(faculty_name, major_name)
+
+# Admin
+@admin_router.post("/add_admin")
+async def add_admin(admin: Schema.InsertAdmin):
+    return kmitl.add_admin(admin.teacher_id, 
+                          admin.password, 
+                          admin.email, 
+                          admin.name, 
+                          admin.citizen_id)
+
+@admin_router.get("/get_admin_by_admin_id/{admin_id}")
+async def get_admin_by_admin_id(admin_id: str):
+    return kmitl.get_data_admin_by_admin_id(admin_id)
+    
 
