@@ -65,6 +65,14 @@ def init_teacher():
                         email = "teacher3@kmitl.ac.th",                      
                         name = "Thananchai Threepak",
                         citizen_id = "1458758962557")
+    
+def init_admin():
+    kmitl.add_admin(admin_id = "admin1",
+                    password = "12345",
+                    email = "admin1@kmitl.ac.th",
+                    name = "Admin1",
+                    citizen_id = "1234567890123")
+    
 
 
 def init_course():
@@ -562,6 +570,7 @@ def init_add_course_to_major():
 def init():
     init_student()
     init_teacher()
+    init_admin()
     init_course()
     init_section()
     init_enrollment()

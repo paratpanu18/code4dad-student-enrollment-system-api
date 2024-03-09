@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from UniversityController import university_router, authenticator_router, student_router, teacher_router, course_router
+from UniversityController import university_router, authenticator_router, student_router, teacher_router, course_router, admin_router
 from Init import init
 
 app = FastAPI()
@@ -19,6 +19,7 @@ app.include_router(authenticator_router)
 app.include_router(student_router)
 app.include_router(teacher_router)
 app.include_router(course_router)
+app.include_router(admin_router)
 
 init()
 

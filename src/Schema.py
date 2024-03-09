@@ -71,3 +71,10 @@ class GradeAssignment(BaseModel):
 class InsertPreRequisite(BaseModel):
     course_id: str
     pre_requisite_course_id: str
+
+class InsertAdmin(BaseModel):
+    admin_id: str
+    password: str
+    email: str
+    name: str
+    citizen_id: str
