@@ -341,12 +341,12 @@ class University():
         
         return course.add_pre_requisite_course(pre_requisite_course)
     
-    def get_detail_student_in_section(self, course_id, section_number):
+    def get_detail_student_in_section(self, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         course = self.get_course_by_course_id(course_id)
         if course is None:
             raise HTTPException(status_code=404, detail="Course not found")
         
-        section = course.get_section_by_section_number(section_number)
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
         if section is None:
             raise HTTPException(status_code=404, detail="Section not found")
         
@@ -488,9 +488,9 @@ async def get_all_section_by_semester_and_year(semester: int, year: int):
 async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
     return kmitl.add_pre_requisite_to_course(pre_requisite.course_id, pre_requisite.pre_requisite_course_id)
 
-@course_router.get("/get_detail_student_in_section/{course_id}/{section_number}")
-async def get_detail_student_in_section(course_id: str, section_number: int):
-    return kmitl.get_detail_student_in_section(course_id, section_number)
+@course_router.get("/get_detail_student_in_section/{course_id}/{section_number}/{semester}/{year}")
+async def get_detail_student_in_section(course_id: str, section_number: int, semester: int, year: int):
+    return kmitl.get_detail_student_in_section(course_id, section_number, semester, year)
 
 
 # Authenticator
