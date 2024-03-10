@@ -143,7 +143,7 @@ class University():
         self.__user_list.append(new_teacher)
         return new_teacher.to_dict()
 
-    def assign_grade_to_student(self, student_id, course_id, section_number, grade):
+    def assign_grade_to_student(self, student_id, course_id, section_number, grade, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
         if student is None:
             raise HTTPException(status_code=404, detail="Student not found")
@@ -152,7 +152,7 @@ class University():
         if course is None:
             raise HTTPException(status_code=404, detail="Course not found")
         
-        section = course.get_section_by_section_number(section_number)
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
         if section is None:
             raise HTTPException(status_code=404, detail="Section not found")
         
