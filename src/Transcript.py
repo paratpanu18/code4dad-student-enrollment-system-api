@@ -81,6 +81,13 @@ class Transcript():
                 return enrollment.to_dict()
         raise ValueError("Student is not enrolled in the section")
     
+    def assign_score_to_enrollment(self, section, score_name, score):
+        for enrollment in self.__enrollment_list:
+            if enrollment.section == section:
+                enrollment.score[score_name] = score
+                return enrollment.to_dict()
+        raise ValueError("Student is not enrolled in the section")
+    
     def get_enrollment_by_section(self, section):
         for enrollment in self.__enrollment_list:
             if enrollment.section == section:

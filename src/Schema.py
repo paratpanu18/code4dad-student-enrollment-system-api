@@ -78,3 +78,10 @@ class InsertAdmin(BaseModel):
     email: str
     name: str
     citizen_id: str
+
+class GradeAndScoreAssignment(BaseModel):
+    course_id: str
+    section_number: int
+    semester: int
+    year: int
+    grade_and_score_dict: dict
