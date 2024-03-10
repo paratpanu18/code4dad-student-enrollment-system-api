@@ -56,6 +56,9 @@ class Section():
             "semester": self.__semester,
             "year": self.__year
         }
+    
+    def get_next_student_in_wait_list(self):
+        return self.__wait_list.pop(0) if len(self.__wait_list) > 0 else None
 
     def add_student_to_section(self, student):
         if len(self.__student_list) < self.__max_student:
