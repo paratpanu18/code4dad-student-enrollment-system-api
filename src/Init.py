@@ -232,7 +232,7 @@ def init_section():
                         location = "ECC-811",
                         schedule = "Tue 13:00 - 15:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Introduction to Computer Engineering - Section 17
     kmitl.add_section(course_id = "01076001",
@@ -242,7 +242,7 @@ def init_section():
                         location = "ECC-811",
                         schedule = "Thu 09:00 - 12:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Programming Fundamental - Section 16
     kmitl.add_section(course_id = "01076103",
@@ -252,7 +252,7 @@ def init_section():
                         location = "ECC-808",
                         schedule = "Mon 13:30 - 15:30",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Programming Fundamental - Section 17
     kmitl.add_section(course_id = "01076103",
@@ -262,7 +262,7 @@ def init_section():
                         location = "ECC-808",
                         schedule = "Mon 09:30 - 11:30",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Programming Project - Section 116
     kmitl.add_section(course_id = "01076104",
@@ -272,7 +272,7 @@ def init_section():
                         location = "ECC-708",
                         schedule = "Tue 09:00 - 12:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Programming Project - Section 117
     kmitl.add_section(course_id = "01076104",
@@ -282,7 +282,7 @@ def init_section():
                         location = "ECC-708",
                         schedule = "Tue 13:00 - 16:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Calculus 1 - Section 16
     kmitl.add_section(course_id = "01076140",
@@ -292,7 +292,7 @@ def init_section():
                         location = "ECC-802",
                         schedule = "Mon 09:00 - 12:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Calculus 1 - Section 17
     kmitl.add_section(course_id = "01076140",
@@ -302,7 +302,7 @@ def init_section():
                         location = "ECC-802",
                         schedule = "Mon 13:00 - 16:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Digital Intelligence Quotient - Section 105
     kmitl.add_section(course_id = "90641002",
@@ -312,7 +312,7 @@ def init_section():
                         location = "E12-508",
                         schedule = "Wed 09:00 - 12:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
     
     # Foundation English 1 - Section 971
     kmitl.add_section(course_id = "90644007",
@@ -322,7 +322,7 @@ def init_section():
                         location = "พระเทพ C-201A",
                         schedule = "Fri 09:00 - 12:00",
                         semester = 1,
-                        year = 2024)
+                        year = 2023)
 
     # Year 1 - Semester 2
     # Discrete Structure - Section 16
@@ -333,7 +333,7 @@ def init_section():
                         location = "ECC-810",
                         schedule = "Wed 13:00 - 16:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Discrete Structure - Section 17
     kmitl.add_section(course_id = "01076012",
@@ -343,7 +343,7 @@ def init_section():
                         location = "ECC-810",
                         schedule = "Fri 13:00 - 16:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Object-Oriented Programming - Section 16
     kmitl.add_section(course_id = "01076105",
@@ -353,7 +353,7 @@ def init_section():
                         location = "ECC-808",
                         schedule = "Tue 13:00 - 15:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Object-Oriented Programming Project - Section 116
     kmitl.add_section(course_id = "01076106",
@@ -363,7 +363,7 @@ def init_section():
                         location = "ECC-808",
                         schedule = "Tue 15:00 - 18:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Object-Oriented Programming - Section 17
     kmitl.add_section(course_id = "01076105",
@@ -373,7 +373,7 @@ def init_section():
                         location = "ECC-811",
                         schedule = "Wed 13:00 - 15:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Object-Oriented Programming Project - Section 117
     kmitl.add_section(course_id = "01076106",
@@ -383,7 +383,7 @@ def init_section():
                         location = "ECC-811",
                         schedule = "Wed 15:00 - 18:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Circuit and Electronics - Section 16
     kmitl.add_section(course_id = "01076107",
@@ -393,7 +393,7 @@ def init_section():
                         location = "ECC-502",
                         schedule = "Mon 13:00 - 16:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Circuit and Electronics in Practice - Section 116
     kmitl.add_section(course_id = "01076108",
@@ -403,7 +403,7 @@ def init_section():
                         location = "ECC-502",
                         schedule = "Tue 09:00 - 12:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Circuit and Electronics - Section 17
     kmitl.add_section(course_id = "01076107",
@@ -413,7 +413,7 @@ def init_section():
                         location = "ECC-502",
                         schedule = "Mon 09:00 - 12:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Circuit and Electronics in Practice - Section 117
     kmitl.add_section(course_id = "01076108",
@@ -423,7 +423,7 @@ def init_section():
                         location = "ECC-502",
                         schedule = "Tue 13:00 - 16:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Calculus 2 - Section 16
     kmitl.add_section(course_id = "01076141",
@@ -433,7 +433,7 @@ def init_section():
                         location = "ECC-802",
                         schedule = "Mon 09:00 - 12:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Calculus 2 - Section 17
     kmitl.add_section(course_id = "01076141",
@@ -443,7 +443,7 @@ def init_section():
                         location = "ECC-802",
                         schedule = "Mon 13:00 - 16:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
     # Foundation English 2 - Section 984
     kmitl.add_section(course_id = "90641003",
@@ -453,7 +453,7 @@ def init_section():
                         location = "พระเทพ C-201B",
                         schedule = "Fri 09:00 - 12:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
     
 
     # Charm School - Section 904
@@ -464,7 +464,7 @@ def init_section():
                         location = "พระเทพ D-109",
                         schedule = "Wed 09:00 - 12:00",
                         semester = 2,
-                        year = 2024)
+                        year = 2023)
 
 def init_enrollment():
     # Year 1 - Semester 1
@@ -473,353 +473,353 @@ def init_enrollment():
                                         course_id = "01076001", # Introduction to Computer Engineering
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076001",
                                     section_number = 16,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                         course_id = "01076103", # Programming Fundamental
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076103",
                                     section_number = 16,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                         course_id = "01076104", # Programming Project
                                         section_number = 116,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076104",
                                     section_number = 116,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                         course_id = "01076140", # Calculus 1
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076140",
                                     section_number = 16,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                         course_id = "90641002", # Digital Intelligence Quotient
                                         section_number = 105,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "90641002",
                                     section_number = 105,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
                                         course_id = "90644007", # Foundation English 1
                                         section_number = 971,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "90644007",
                                     section_number = 971,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     # 66010533 - Prompipat Thongtub
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "01076001", # Introduction to Computer Engineering
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "01076001",
                                     section_number = 17,
                                     grade = "C",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "01076103", # Programming Fundamental
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "01076103",
                                     section_number = 17,
                                     grade = "D+",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "01076104", # Programming Project
                                         section_number = 117,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "01076104",
                                     section_number = 117,
                                     grade = "B",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "01076140", # Calculus 1
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "01076140",
                                     section_number = 17,
                                     grade = "D",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "90641002", # Digital Intelligence Quotient
                                         section_number = 105,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "90641002",
                                     section_number = 105,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010533",
                                         course_id = "90644007", # Foundation English 1
                                         section_number = 971,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "90644007",
                                     section_number = 971,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     # 66010572 - Pipatpong Panpreuak
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "01076001", # Introduction to Computer Engineering
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "01076001",
                                     section_number = 16,
                                     grade = "B",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "01076103", # Programming Fundamental
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "01076103",
                                     section_number = 16,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "01076104", # Programming Project
                                         section_number = 116,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "01076104",
                                     section_number = 116,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "01076140", # Calculus 1
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "01076140",
                                     section_number = 16,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "90641002", # Digital Intelligence Quotient
                                         section_number = 105,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "90641002",
                                     section_number = 105,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010572",
                                         course_id = "90644007", # Foundation English 1
                                         section_number = 971,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010572",
                                     course_id = "90644007",
                                     section_number = 971,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
-    # 66010587 - Pearaphat Kumsing
+    # 66010587 - Pearapat Kumsing
     kmitl.enroll_student_to_section(student_id = "66010587",
                                         course_id = "01076001", # Introduction to Computer Engineering
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "01076001",
                                     section_number = 17,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010587", 
                                         course_id = "01076103", # Programming Fundamental
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "01076103",
                                     section_number = 17,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
                                         course_id = "01076104", # Programming Project
                                         section_number = 117,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "01076104",
                                     section_number = 117,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
                                         course_id = "01076140", # Calculus 1
                                         section_number = 17,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "01076140",
                                     section_number = 17,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
                                         course_id = "90641002", # Digital Intelligence Quotient
                                         section_number = 105,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "90641002",
                                     section_number = 105,
                                     grade = "U",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010587",
                                         course_id = "90644007", # Foundation English 1
                                         section_number = 971,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010587",
                                     course_id = "90644007",
                                     section_number = 971,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     # 66010544 - Pasut Siriwan
     kmitl.enroll_student_to_section(student_id = "66010544",
                                         course_id = "01076001", # Introduction to Computer Engineering
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010544",
                                     course_id = "01076001",
                                     section_number = 16,
                                     grade = "C",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010544",
                                         course_id = "01076103", # Programming Fundamental
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010544",
                                     course_id = "01076103",
                                     section_number = 16,
                                     grade = "B",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010544",
                                         course_id = "01076104", # Programming Project
                                         section_number = 116,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010544",
                                     course_id = "01076104",
                                     section_number = 116,
                                     grade = "A",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010544",
                                         course_id = "01076140", # Calculus 1
                                         section_number = 16,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010544",
                                     course_id = "01076140",
                                     section_number = 16,
                                     grade = "F",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
     
     kmitl.enroll_student_to_section(student_id = "66010544",
                                         course_id = "90641002", # Digital Intelligence Quotient
                                         section_number = 105,
                                         semester = 1,
-                                        year = 2024)
+                                        year = 2023)
     kmitl.assign_grade_to_student(student_id = "66010544",
                                     course_id = "90641002",
                                     section_number = 105,
                                     grade = "S",
                                     semester = 1,
-                                    year = 2024)
+                                    year = 2023)
 
 def init_faculty():
     kmitl.add_faculty(faculty_name = "Engineering")
