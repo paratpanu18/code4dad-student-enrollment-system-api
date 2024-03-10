@@ -62,7 +62,7 @@ class Transcript():
             "semester": self.__semester,
             "year": self.__year,
             "enrollments": [enrollment.to_dict_with_grade() for enrollment in self.__enrollment_list],
-            "gps": self.__gps if self.__gps else "N/A"
+            "gps": self.__gps if self.__gps is not "N/A" else "N/A"
         }
     
     def get_all_enrollment_list(self):
@@ -76,6 +76,7 @@ class Transcript():
         for enrollment in self.__enrollment_list:
             if enrollment.section == section:
                 enrollment.grade = grade
+                self.calculate_gps()
 
                 return enrollment.to_dict()
         raise ValueError("Student is not enrolled in the section")
