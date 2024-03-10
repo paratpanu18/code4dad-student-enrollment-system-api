@@ -163,6 +163,35 @@ class University():
 
         return student_transcript.assign_grade_to_enrollment(section, grade)
     
+    def assign_grade_and_score_to_multiple_student(self, grade_and_score: Schema.GradeAndScoreAssignment):
+        course = self.get_course_by_course_id(grade_and_score.course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(grade_and_score.section_number, grade_and_score.semester, grade_and_score.year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        grade_and_score_dict = grade_and_score.grade_and_score_dict
+        
+        for student_id, score_data in grade_and_score_dict.items():
+            student = self.get_student_by_student_id(student_id)
+            if student is None:
+                raise HTTPException(status_code=404, detail="Student not found")
+            
+            if student not in section.student_list:
+                raise HTTPException(status_code=400, detail="Student is not enrolled in section")
+            
+            student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+            student_transcript.assign_grade_to_enrollment(section, score_data["grade"])
+
+            for score_name, score in score_data["score"].items():
+                student_transcript.assign_score_to_enrollment(section, score_name, score)
+
+        return section.get_grade_and_score_student()
+        
+
+    
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:
             raise HTTPException(status_code=400, detail="Course ID already exists")
@@ -442,7 +471,12 @@ async def get_teacher_by_teacher_id(teacher_id: str):
 
 @teacher_router.post("/assign_grade_to_student")
 def assign_grade_to_student(grade: Schema.GradeAssignment):
-    return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)
+    return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)\
+
+@teacher_router.post("/assign_grade_and_score_to_multiple_student")
+async def assign_grade_and_score_to_multiple_student(grade: Schema.GradeAndScoreAssignment):
+    return kmitl.assign_grade_and_score_to_multiple_student(grade)
+
 
 @teacher_router.get("/get_all_sections_taught_by_teacher_id/{teacher_id}/{semester}/{year}")
 def get_all_sections_taught_by_teacher_id(teacher_id: str, semester: int, year: int):
