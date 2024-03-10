@@ -8,6 +8,7 @@ from Section import Section
 from Faculty import Faculty
 from Major import Major
 from Grade import Grade
+from Transcript import Transcript
 from Util import get_current_semester, get_current_academic_year
 import Schema
 
@@ -99,6 +100,7 @@ class University():
         
         section.drop_student_from_section(student)
         student_transcript.drop_enrollment_from_transcript(section)
+        student_transcript.current_credit -= section.course.credit
 
         next_student_in_wait_list = section.get_next_student_in_wait_list()
 

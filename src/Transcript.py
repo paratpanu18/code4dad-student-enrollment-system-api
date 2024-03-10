@@ -20,6 +20,8 @@ class Transcript():
         self.__enrollment_list = []
         self.__gps = None
         self.__gpa = None
+        self.__max_credit = 27
+        self.__current_credit = 0
 
     @property
     def semester(self):
@@ -32,11 +34,25 @@ class Transcript():
     @property
     def enrollment_list(self):
         return self.__enrollment_list
+    
+    @property
+    def max_credit(self):
+        return self.__max_credit
+    
+    @property
+    def current_credit(self):
+        return self.__current_credit
+    @current_credit.setter
+    def current_credit(self, credit):
+        self.__current_credit = credit
 
     def add_enrollment(self, student, section):
-        new_enrollment = Enrollment(student, section)
-        self.__enrollment_list.append(new_enrollment)
-        return new_enrollment.to_dict()
+        if self.__current_credit + section.course.credit <= self.__max_credit:
+            self.__current_credit += section.course.credit
+            new_enrollment = Enrollment(student, section)
+            self.__enrollment_list.append(new_enrollment)
+            return self.to_dict()
+        raise HTTPException(status_code=400, detail="Cannot enroll to the section. The student has reached the maximum credit")
     
     def drop_enrollment_from_transcript(self, section):
         for enrollment in self.__enrollment_list:
@@ -62,7 +78,8 @@ class Transcript():
             "semester": self.__semester,
             "year": self.__year,
             "enrollments": [enrollment.to_dict_with_grade() for enrollment in self.__enrollment_list],
-            "gps": self.__gps if self.__gps is not "N/A" else "N/A"
+            "gps": self.__gps if self.__gps is not "N/A" else "N/A",
+            "current_credit": f"{self.__current_credit}" "/" f"{self.__max_credit}" if self.__current_credit else "N/A"
         }
     
     def get_all_enrollment_list(self):
