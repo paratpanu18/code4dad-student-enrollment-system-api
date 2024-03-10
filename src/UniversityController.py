@@ -536,6 +536,10 @@ async def add_course_to_major(course: Schema.InsertCourseToMajor):
 async def get_all_student_in_major(faculty_name: str, major_name: str):
     return kmitl.get_all_student_in_major(faculty_name, major_name)
 
+@university_router.get("/get_current_semester_and_year")
+async def get_current_semester_and_year():
+    return {"semester": get_current_semester(), "year": get_current_academic_year()}
+
 # Admin
 @admin_router.post("/add_admin")
 async def add_admin(admin: Schema.InsertAdmin):
