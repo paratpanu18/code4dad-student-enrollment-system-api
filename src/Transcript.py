@@ -85,7 +85,6 @@ class Transcript():
         for enrollment in self.__enrollment_list:
             if enrollment.section == section:
                 enrollment.score[score_name] = score
-                print(enrollment.score)
                 return enrollment.to_dict()
         raise ValueError("Student is not enrolled in the section")
     
