@@ -46,7 +46,6 @@ def init_student():
                       major = "Computer Engineering",
                       faculty = "Engineering")
 
-
 def init_teacher():
     kmitl.add_teacher(teacher_id = "teacher1",
                         password = "12345",
@@ -66,6 +65,48 @@ def init_teacher():
                         name = "Thananchai Threepak",
                         citizen_id = "1458758962557")
     
+    kmitl.add_teacher(teacher_id = "teacher4",
+                        password = "12345",
+                        email = "teacher4@gmail.com",
+                        name = "Chutima Waiyasurasingha",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher5",
+                        password = "12345",
+                        email = "teacher5@kmitl.ac.th",
+                        name = "Thana Hongsuwan",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher6",
+                        password = "12345",
+                        email = "teacher6@kmitl.ac.th",
+                        name = "Orachat Chitsobhuk",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher7",
+                        password = "12345",
+                        email = "teacher7@kmitl.ac.th",
+                        name = "Amnarch Kaone",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher8",
+                        password = "12345",
+                        email = "teacher8@kmitl.ac.th",
+                        name = "Soraphong Wachirarattanapronkul",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher9",
+                        password = "12345",
+                        email = "teacher9@kmitl.ac.th",
+                        name = "CHINEBETH BORJA",
+                        citizen_id = "1234567890123")
+    
+    kmitl.add_teacher(teacher_id = "teacher10",
+                        password = "12345",
+                        email = "teacher10@kmitl.ac.th",
+                        name = "Kleddao Satcharoen",
+                        citizen_id = "1234567890123")
+    
 def init_admin():
     kmitl.add_admin(admin_id = "admin1",
                     password = "12345",
@@ -73,7 +114,6 @@ def init_admin():
                     name = "Admin1",
                     citizen_id = "1234567890123")
     
-
 
 def init_course():
 
@@ -84,192 +124,171 @@ def init_course():
     FACULTY = 1
     CURRICULUM = 2
 
-    # Engineering courses
+    # Year 1 - Semester 1
     kmitl.add_course(course_name = "Calculus 1", 
                      course_id = "01076140", 
                      credit = 3, 
                      course_type = CURRICULUM, 
                      grading_type = GRADE)
-    
-    kmitl.add_course(course_name = "Calculus 2",
-                        course_id = "01076141", 
-                        credit = 3, 
-                        course_type = CURRICULUM, 
-                        grading_type = GRADE)
-    
-    kmitl.add_pre_requisite_to_course("01076141", "01076140")       # Calculus 2 requires Calculus 1
-    
 
     kmitl.add_course(course_name = "Introduction to Computer Engineering", 
                      course_id = "01076001", 
                      credit = 3, 
                      course_type = CURRICULUM, 
                      grading_type = GRADE)
-    
-    kmitl.add_course(course_name = "Digital Intelligence Quotient",  
-                     course_id = "90641001", 
-                     credit = 3, 
-                     course_type = GENED, 
-                     grading_type = SATISFACTORY)
-    
+
     kmitl.add_course(course_name = "Programming Fundamental",
-                     course_id = "01076002", 
+                     course_id = "01076103", 
                      credit = 2, 
                      course_type = CURRICULUM, 
                      grading_type = GRADE)
     
     kmitl.add_course(course_name = "Programming Project",
-                     course_id = "01076003", 
+                     course_id = "01076104", 
                      credit = 1, 
                      course_type = CURRICULUM, 
                      grading_type = GRADE)
-    
-    kmitl.add_course(course_name = "Pre-Activity Engineering",
-                     course_id = "01076004", 
-                     credit = 1, 
-                     course_type = FACULTY, 
-                     grading_type = GRADE)
-    
-    kmitl.add_course(course_name = "Charm School",
-                     course_id = "01076005", 
-                     credit = 2, 
-                     course_type = FACULTY, 
-                     grading_type = SATISFACTORY)
-    
-    kmitl.add_course(course_name = "Foundation English1",
+
+    kmitl.add_course(course_name = "Digital Intelligence Quotient",  
                      course_id = "90641002", 
                      credit = 3, 
                      course_type = GENED, 
                      grading_type = SATISFACTORY)
     
-    kmitl.add_course(course_name = "Foundation English2",
+    kmitl.add_course(course_name = "Pre-Activity Engineering",
+                     course_id = "90642036", 
+                     credit = 1, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+
+    kmitl.add_course(course_name = "Foundation English1",
+                     course_id = "90644007", 
+                     credit = 3, 
+                     course_type = GENED, 
+                     grading_type = SATISFACTORY)
+    
+    # Year 1 - Semester 2
+    kmitl.add_course(course_name = "Calculus 2",
+                        course_id = "01076141", 
+                        credit = 3, 
+                        course_type = CURRICULUM, 
+                        grading_type = GRADE)
+    kmitl.add_pre_requisite_to_course("01076141", "01076140")       # Calculus 2 requires Calculus 1
+    
+    kmitl.add_course(course_name = "Object-Oriented Programming",
+                     course_id = "01076105", 
+                     credit = 2, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+    kmitl.add_pre_requisite_to_course("01076105", "01076103")       # Object-Oriented Programming requires Programming Fundamental
+
+    kmitl.add_course(course_name = "Object-Oriented Programming Project",
+                     course_id = "01076106", 
+                     credit = 1, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+    kmitl.add_pre_requisite_to_course("01076106", "01076103")       # Object-Oriented Programming requires Programming Fundamental
+
+    kmitl.add_course(course_name = "Circuit and Electronics",
+                     course_id = "01076107", 
+                     credit = 3, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+    kmitl.add_pre_requisite_to_course("01076107", "01076001")       # Circuit and Electronics requires Introduction to Computer Engineering
+    
+    kmitl.add_course(course_name = "Circuit and Electronics in Practice",
+                     course_id = "01076108", 
+                     credit = 3, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
+    kmitl.add_pre_requisite_to_course("01076108", "01076001")       # Circuit and Electronics in Practice requires Introduction to Computer Engineering
+    
+    kmitl.add_course(course_name = "Foundation English 2",
                         course_id = "90641003", 
                         credit = 3, 
                         course_type = GENED, 
                         grading_type = SATISFACTORY)
+    kmitl.add_pre_requisite_to_course("90641003", "90641002")       # Foundation English 2 requires Foundation English 1
     
-    kmitl.add_pre_requisite_to_course("90641003", "90641002")       # Foundation English2 requires Foundation English1
+    kmitl.add_course(course_name = "Discrete Structure",
+                     course_id = "01076012", 
+                     credit = 3, 
+                     course_type = FACULTY, 
+                     grading_type = GRADE)
     
-    # Science courses
-    kmitl.add_course(course_name="Physics 1",
-                     course_id="02076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Chemistry 1",
-                     course_id="02076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Biology 1",
-                     course_id="02076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    # Architecture courses
-    kmitl.add_course(course_name="Architectural Design 1",
-                     course_id="03076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Architectural History",
-                     course_id="03076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Structural Mechanics",
-                     course_id="03076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    # Industrial Education courses
-    kmitl.add_course(course_name="Industrial Design",
-                     course_id="04076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Manufacturing Processes",
-                     course_id="04076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Quality Control",
-                     course_id="04076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    # Information Technology courses
-    kmitl.add_course(course_name="Database Management Systems",
-                     course_id="05076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Web Programming",
-                     course_id="05076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Cybersecurity Fundamentals",
-                     course_id="05076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    # Agro-Industry courses
-    kmitl.add_course(course_name="Agricultural Economics",
-                     course_id="06076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Crop Science",
-                     course_id="06076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Food Technology",
-                     course_id="06076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    # Management Science courses
-    kmitl.add_course(course_name="Principles of Management",
-                     course_id="07076001",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Organizational Behavior",
-                     course_id="07076002",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
-    kmitl.add_course(course_name="Business Ethics",
-                     course_id="07076003",
-                     credit=3,
-                     course_type=CURRICULUM,
-                     grading_type=GRADE)
-
+    kmitl.add_course(course_name = "Charm School",
+                     course_id = "90642999", 
+                     credit = 3, 
+                     course_type = FACULTY, 
+                     grading_type = SATISFACTORY)
+    
 def init_section():
+    # Year 1 - Semester 1
+    # Introduction to Computer Engineering - Section 16
+    kmitl.add_section(course_id = "01076001",
+                        section_number = 16,
+                        teacher_id = "teacher2",
+                        max_student = 40,
+                        location = "ECC-811",
+                        schedule = "Tue 13:00 - 15:00",
+                        semester = 1,
+                        year = 2024)
+
+    # Introduction to Computer Engineering - Section 17
+    kmitl.add_section(course_id = "01076001",
+                        section_number = 17,
+                        teacher_id = "teacher2",
+                        max_student = 40,
+                        location = "ECC-811",
+                        schedule = "Thu 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+
+    # Programming Fundamental - Section 16
+    kmitl.add_section(course_id = "01076103",
+                        section_number = 16,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-808",
+                        schedule = "Mon 13:30 - 15:30",
+                        semester = 1,
+                        year = 2024)
+
+    # Programming Fundamental - Section 17
+    kmitl.add_section(course_id = "01076103",
+                        section_number = 17,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-808",
+                        schedule = "Mon 09:30 - 11:30",
+                        semester = 1,
+                        year = 2024)
+
+    # Programming Project - Section 116
+    kmitl.add_section(course_id = "01076104",
+                        section_number = 116,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-708",
+                        schedule = "Tue 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+
+    # Programming Project - Section 117
+    kmitl.add_section(course_id = "01076104",
+                        section_number = 117,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-708",
+                        schedule = "Tue 13:00 - 16:00",
+                        semester = 1,
+                        year = 2024)
+
     # Calculus 1 - Section 16
     kmitl.add_section(course_id = "01076140",
                         section_number = 16,
                         teacher_id = "teacher1",
-                        max_student = 50,
+                        max_student = 40,
                         location = "ECC-802",
                         schedule = "Mon 09:00 - 12:00",
                         semester = 1,
@@ -279,150 +298,529 @@ def init_section():
     kmitl.add_section(course_id = "01076140",
                         section_number = 17,
                         teacher_id = "teacher1",
-                        max_student = 50,
+                        max_student = 40,
                         location = "ECC-802",
                         schedule = "Mon 13:00 - 16:00",
                         semester = 1,
+                        year = 2024)
+
+    # Digital Intelligence Quotient - Section 105
+    kmitl.add_section(course_id = "90641002",
+                        section_number = 105,
+                        teacher_id = "teacher4",
+                        max_student = 40,
+                        location = "E12-508",
+                        schedule = "Wed 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+    
+    # Foundation English 1 - Section 971
+    kmitl.add_section(course_id = "90644007",
+                        section_number = 971,
+                        teacher_id = "teacher9",
+                        max_student = 40,
+                        location = "พระเทพ C-201A",
+                        schedule = "Fri 09:00 - 12:00",
+                        semester = 1,
+                        year = 2024)
+
+    # Year 1 - Semester 2
+    # Discrete Structure - Section 16
+    kmitl.add_section(course_id = "01076012",
+                        section_number = 16,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-810",
+                        schedule = "Wed 13:00 - 16:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Discrete Structure - Section 17
+    kmitl.add_section(course_id = "01076012",
+                        section_number = 17,
+                        teacher_id = "teacher3",
+                        max_student = 40,
+                        location = "ECC-810",
+                        schedule = "Fri 13:00 - 16:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Object-Oriented Programming - Section 16
+    kmitl.add_section(course_id = "01076105",
+                        section_number = 16,
+                        teacher_id = "teacher6",
+                        max_student = 40,
+                        location = "ECC-808",
+                        schedule = "Tue 13:00 - 15:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Object-Oriented Programming Project - Section 116
+    kmitl.add_section(course_id = "01076106",
+                        section_number = 116,
+                        teacher_id = "teacher6",
+                        max_student = 40,
+                        location = "ECC-808",
+                        schedule = "Tue 15:00 - 18:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Object-Oriented Programming - Section 17
+    kmitl.add_section(course_id = "01076105",
+                        section_number = 17,
+                        teacher_id = "teacher5",
+                        max_student = 40,
+                        location = "ECC-811",
+                        schedule = "Wed 13:00 - 15:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Object-Oriented Programming Project - Section 117
+    kmitl.add_section(course_id = "01076106",
+                        section_number = 117,
+                        teacher_id = "teacher5",
+                        max_student = 40,
+                        location = "ECC-811",
+                        schedule = "Wed 15:00 - 18:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Circuit and Electronics - Section 16
+    kmitl.add_section(course_id = "01076107",
+                        section_number = 16,
+                        teacher_id = "teacher7",
+                        max_student = 40,
+                        location = "ECC-502",
+                        schedule = "Mon 13:00 - 16:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Circuit and Electronics in Practice - Section 116
+    kmitl.add_section(course_id = "01076108",
+                        section_number = 116,
+                        teacher_id = "teacher8",
+                        max_student = 40,
+                        location = "ECC-502",
+                        schedule = "Tue 09:00 - 12:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Circuit and Electronics - Section 17
+    kmitl.add_section(course_id = "01076107",
+                        section_number = 17,
+                        teacher_id = "teacher7",
+                        max_student = 40,
+                        location = "ECC-502",
+                        schedule = "Mon 09:00 - 12:00",
+                        semester = 2,
+                        year = 2024)
+    
+    # Circuit and Electronics in Practice - Section 117
+    kmitl.add_section(course_id = "01076108",
+                        section_number = 117,
+                        teacher_id = "teacher8",
+                        max_student = 40,
+                        location = "ECC-502",
+                        schedule = "Tue 13:00 - 16:00",
+                        semester = 2,
                         year = 2024)
     
     # Calculus 2 - Section 16
     kmitl.add_section(course_id = "01076141",
                         section_number = 16,
                         teacher_id = "teacher1",
-                        max_student = 50,
+                        max_student = 40,
                         location = "ECC-802",
-                        schedule = "Tue 09:00 - 12:00",
-                        semester = 1,
+                        schedule = "Mon 09:00 - 12:00",
+                        semester = 2,
                         year = 2024)
     
     # Calculus 2 - Section 17
     kmitl.add_section(course_id = "01076141",
                         section_number = 17,
                         teacher_id = "teacher1",
-                        max_student = 50,
+                        max_student = 40,
                         location = "ECC-802",
-                        schedule = "Tue 13:00 - 16:00",
-                        semester = 1,
-                        year = 2024)
-
-    # Introduction to Computer Engineering - Section 16
-    kmitl.add_section(course_id = "01076001",
-                        section_number = 16,
-                        teacher_id = "teacher2",
-                        max_student = 50,
-                        location = "ECC-811",
-                        schedule = "Wed 13:00 - 16:30",
-                        semester = 1,
-                        year = 2024)
-    
-    # Introduction to Computer Engineering - Section 17
-    kmitl.add_section(course_id = "01076001",
-                        section_number = 17,
-                        teacher_id = "teacher2",
-                        max_student = 50,
-                        location = "ECC-811",
-                        schedule = "Wed 08:30 - 12:00",
-                        semester = 1,
-                        year = 2024)
-    
-    # Programming Fundamental - Section 16
-    kmitl.add_section(course_id = "01076002",
-                        section_number = 16,
-                        teacher_id = "teacher3",
-                        max_student = 50,
-                        location = "ECC-810",
                         schedule = "Mon 13:00 - 16:00",
-                        semester = 1,
+                        semester = 2,
                         year = 2024)
     
-    # Programming Fundamental - Section 17
-    kmitl.add_section(course_id = "01076002",
-                        section_number = 17,
-                        teacher_id = "teacher3",
-                        max_student = 50,
-                        location = "ECC-810",
-                        schedule = "Mon 09:00 - 12:00",
-                        semester = 1,
+    # Foundation English 2 - Section 984
+    kmitl.add_section(course_id = "90641003",
+                        section_number = 984,
+                        teacher_id = "teacher9",
+                        max_student = 40,
+                        location = "พระเทพ C-201B",
+                        schedule = "Fri 09:00 - 12:00",
+                        semester = 2,
                         year = 2024)
     
-    kmitl.add_section(course_id = "90641001",
-                        section_number = 1,
-                        teacher_id = "teacher3",
-                        max_student = 50,
-                        location = "E12-101",
-                        schedule = "Mon 10:00-12:00",
-                        semester = 1,
+
+    # Charm School - Section 904
+    kmitl.add_section(course_id = "90642999",
+                        section_number = 904,
+                        teacher_id = "teacher10",
+                        max_student = 40,
+                        location = "พระเทพ D-109",
+                        schedule = "Wed 09:00 - 12:00",
+                        semester = 2,
                         year = 2024)
 
 def init_enrollment():
-    # 66010542
+    # Year 1 - Semester 1
+    # 66010542 - Paratpanu Pechsaman
     kmitl.enroll_student_to_section(student_id = "66010542",
-                                    course_id = "01076140",     # Calculus 1
+                                        course_id = "01076001", # Introduction to Computer Engineering
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
+                                    course_id = "01076001",
                                     section_number = 16,
-                                    semester=1,
-                                    year=2024)
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
-                                    course_id = "01076001",     # Introduction to Computer Engineering
+                                        course_id = "01076103", # Programming Fundamental
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
+                                    course_id = "01076103",
                                     section_number = 16,
-                                    semester=1,
-                                    year=2024)
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
     
     kmitl.enroll_student_to_section(student_id = "66010542",
-                                    course_id = "01076002",     # Programming Fundamental
-                                    section_number = 16,
-                                    semester=1,
-                                    year=2024)
+                                        course_id = "01076104", # Programming Project
+                                        section_number = 116,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
+                                    course_id = "01076104",
+                                    section_number = 116,
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
     
-
-    # 66010572
-    kmitl.enroll_student_to_section(student_id = "66010572",
-                                    course_id = "01076140",     # Calculus 1
-                                    section_number = 17,
-                                    semester=1,
-                                    year=2024)
-    
-    kmitl.enroll_student_to_section(student_id = "66010572",
-                                    course_id = "01076001",     # Introduction to Computer Engineering
-                                    section_number = 17,
-                                    semester=1,
-                                    year=2024)
-    
-    kmitl.enroll_student_to_section(student_id = "66010572",
-                                    course_id = "01076002",     # Programming Fundamental
-                                    section_number = 17,
-                                    semester=1,
-                                    year=2024)
-    
-
-    # 66010533
-    kmitl.enroll_student_to_section(student_id = "66010533",
-                                    course_id = "01076140",     # Calculus 1
-                                    section_number = 16,
-                                    semester=1,
-                                    year=2024)
-    
-    kmitl.enroll_student_to_section(student_id = "66010533",
-                                    course_id = "01076001",     # Introduction to Computer Engineering
-                                    section_number = 16,
-                                    semester=1,
-                                    year=2024)
-    
-
-    # 66010587
-    kmitl.enroll_student_to_section(student_id = "66010587",
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                        course_id = "01076140", # Calculus 1
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076140",
-                                    section_number = 17,
-                                    semester=1,
-                                    year=2024)
+                                    section_number = 16,
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
     
-    kmitl.enroll_student_to_section(student_id = "66010587",
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                        course_id = "90641002", # Digital Intelligence Quotient
+                                        section_number = 105,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
+                                    course_id = "90641002",
+                                    section_number = 105,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010542",
+                                        course_id = "90644007", # Foundation English 1
+                                        section_number = 971,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010542",
+                                    course_id = "90644007",
+                                    section_number = 971,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    # 66010533 - Prompipat Thongtub
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "01076001", # Introduction to Computer Engineering
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
                                     course_id = "01076001",
                                     section_number = 17,
-                                    semester=1,
-                                    year=2024)
+                                    grade = "C",
+                                    semester = 1,
+                                    year = 2024)
     
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "01076103", # Programming Fundamental
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
+                                    course_id = "01076103",
+                                    section_number = 17,
+                                    grade = "D+",
+                                    semester = 1,
+                                    year = 2024)
     
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "01076104", # Programming Project
+                                        section_number = 117,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
+                                    course_id = "01076104",
+                                    section_number = 117,
+                                    grade = "B",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "01076140", # Calculus 1
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
+                                    course_id = "01076140",
+                                    section_number = 17,
+                                    grade = "D",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "90641002", # Digital Intelligence Quotient
+                                        section_number = 105,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
+                                    course_id = "90641002",
+                                    section_number = 105,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010533",
+                                        course_id = "90644007", # Foundation English 1
+                                        section_number = 971,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010533",
+                                    course_id = "90644007",
+                                    section_number = 971,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    # 66010572 - Pipatpong Panpreuak
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "01076001", # Introduction to Computer Engineering
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "01076001",
+                                    section_number = 16,
+                                    grade = "B",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "01076103", # Programming Fundamental
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "01076103",
+                                    section_number = 16,
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "01076104", # Programming Project
+                                        section_number = 116,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "01076104",
+                                    section_number = 116,
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "01076140", # Calculus 1
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "01076140",
+                                    section_number = 16,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "90641002", # Digital Intelligence Quotient
+                                        section_number = 105,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "90641002",
+                                    section_number = 105,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010572",
+                                        course_id = "90644007", # Foundation English 1
+                                        section_number = 971,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010572",
+                                    course_id = "90644007",
+                                    section_number = 971,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    # 66010587 - Pearaphat Kumsing
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                        course_id = "01076001", # Introduction to Computer Engineering
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "01076001",
+                                    section_number = 17,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587", 
+                                        course_id = "01076103", # Programming Fundamental
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "01076103",
+                                    section_number = 17,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                        course_id = "01076104", # Programming Project
+                                        section_number = 117,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "01076104",
+                                    section_number = 117,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                        course_id = "01076140", # Calculus 1
+                                        section_number = 17,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "01076140",
+                                    section_number = 17,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                        course_id = "90641002", # Digital Intelligence Quotient
+                                        section_number = 105,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "90641002",
+                                    section_number = 105,
+                                    grade = "U",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010587",
+                                        course_id = "90644007", # Foundation English 1
+                                        section_number = 971,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010587",
+                                    course_id = "90644007",
+                                    section_number = 971,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+    
+    # 66010544 - Pasut Siriwan
+    kmitl.enroll_student_to_section(student_id = "66010544",
+                                        course_id = "01076001", # Introduction to Computer Engineering
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010544",
+                                    course_id = "01076001",
+                                    section_number = 16,
+                                    grade = "C",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010544",
+                                        course_id = "01076103", # Programming Fundamental
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010544",
+                                    course_id = "01076103",
+                                    section_number = 16,
+                                    grade = "B",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010544",
+                                        course_id = "01076104", # Programming Project
+                                        section_number = 116,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010544",
+                                    course_id = "01076104",
+                                    section_number = 116,
+                                    grade = "A",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010544",
+                                        course_id = "01076140", # Calculus 1
+                                        section_number = 16,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010544",
+                                    course_id = "01076140",
+                                    section_number = 16,
+                                    grade = "F",
+                                    semester = 1,
+                                    year = 2024)
+    
+    kmitl.enroll_student_to_section(student_id = "66010544",
+                                        course_id = "90641002", # Digital Intelligence Quotient
+                                        section_number = 105,
+                                        semester = 1,
+                                        year = 2024)
+    kmitl.assign_grade_to_student(student_id = "66010544",
+                                    course_id = "90641002",
+                                    section_number = 105,
+                                    grade = "S",
+                                    semester = 1,
+                                    year = 2024)
+
 def init_faculty():
     kmitl.add_faculty(faculty_name = "Engineering")
     kmitl.add_faculty(faculty_name = "Architecture")
@@ -464,129 +862,8 @@ def init_major():
                     faculty_name = "Management Science")
 
 def init_add_course_to_major():
-    #Computer Engineering
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076140", 
-                              course_group = "Core")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076001", 
-                              course_group = "Core")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076002", 
-                              course_group = "Core")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076003", 
-                              course_group = "Core")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076004", 
-                              course_group = "Elective")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "01076005", 
-                              course_group = "Elective")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "90641002", 
-                              course_group = "Elective")
-    kmitl.add_course_to_major(faculty_name = "Engineering", 
-                              major_name = "Computer Engineering", 
-                              course_id = "90641003", 
-                              course_group = "Elective")
-
-    # Science - Physics
-    kmitl.add_course_to_major(faculty_name="Science",
-                               major_name="Physics",
-                               course_id="02076001",
-                               course_group="Core")
-
-    # Science - Chemistry
-    kmitl.add_course_to_major(faculty_name="Science",
-                               major_name="Chemistry",
-                               course_id="02076002",
-                               course_group="Core")
-
-    # Science - Biology
-    kmitl.add_course_to_major(faculty_name="Science",
-                               major_name="Biology",
-                               course_id="02076003",
-                               course_group="Core")
-
-    # Architecture - Architecture
-    kmitl.add_course_to_major(faculty_name="Architecture",
-                               major_name="Architecture",
-                               course_id="03076001",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Architecture",
-                               major_name="Architecture",
-                               course_id="03076002",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Architecture",
-                               major_name="Architecture",
-                               course_id="03076003",
-                               course_group="Core")
-
-    # Industrial Education - Industrial Education
-    kmitl.add_course_to_major(faculty_name="Industrial Education",
-                               major_name="Industrial Education",
-                               course_id="04076001",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Industrial Education",
-                               major_name="Industrial Education",
-                               course_id="04076002",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Industrial Education",
-                               major_name="Industrial Education",
-                               course_id="04076003",
-                               course_group="Core")
-
-    # Information Technology - Information Technology
-    kmitl.add_course_to_major(faculty_name="Information Technology",
-                               major_name="Information Technology",
-                               course_id="05076001",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Information Technology",
-                               major_name="Information Technology",
-                               course_id="05076002",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Information Technology",
-                               major_name="Information Technology",
-                               course_id="05076003",
-                               course_group="Core")
-
-    # Agro-Industry - Agro-Industry
-    kmitl.add_course_to_major(faculty_name="Agro-Industry",
-                               major_name="Agro-Industry",
-                               course_id="06076001",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Agro-Industry",
-                               major_name="Agro-Industry",
-                               course_id="06076002",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Agro-Industry",
-                               major_name="Agro-Industry",
-                               course_id="06076003",
-                               course_group="Core")
-
-    # Management Science - Management Science
-    kmitl.add_course_to_major(faculty_name="Management Science",
-                               major_name="Management Science",
-                               course_id="07076001",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Management Science",
-                               major_name="Management Science",
-                               course_id="07076002",
-                               course_group="Core")
-    kmitl.add_course_to_major(faculty_name="Management Science",
-                               major_name="Management Science",
-                               course_id="07076003",
-                               course_group="Core")
-
-                    
+    pass
+    
 def init():
     init_student()
     init_teacher()
