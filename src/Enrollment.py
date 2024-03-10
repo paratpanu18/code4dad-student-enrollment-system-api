@@ -27,8 +27,11 @@ class Enrollment():
         return self.__grade if self.__grade else "N/A"
     @grade.setter
     def grade(self, grade):
-        if grade not in ["A", "B+", "B", "C+", "C", "D+", "D", "F", "N/A"]:
+        course_type = self.__section.course.course_type
+        if course_type is "grade" and grade not in ["A", "B+", "B", "C+", "C", "D+", "D", "F", "N/A"]:
             raise ValueError("Invalid grade. Grade must be one of the following: A, B+, B, C+, C, D+, D, F")
+        elif course_type is "satisfactory" and grade not in ["S", "U", "N/A"]:
+            raise ValueError("Invalid grade. Grade must be one of the following: S, U")
         self.__grade = grade
 
     @property
