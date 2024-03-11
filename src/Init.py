@@ -486,6 +486,7 @@ def init_enrollment():
                                         section_number = 16,
                                         semester = 1,
                                         year = 2023)
+    
     kmitl.assign_grade_to_student(student_id = "66010542",
                                     course_id = "01076103",
                                     section_number = 16,

@@ -81,3 +81,23 @@ def get_current_academic_year():
         return current_year - 1
     else:
         return current_year
+    
+def time_is_intersect(time_range1, time_range2):
+    # Parse time ranges
+    day1, time_range1 = time_range1.split(' ', 1)
+    day2, time_range2 = time_range2.split(' ', 1)
+
+    start_time1, end_time1 = time_range1.split(' - ')
+    start_time2, end_time2 = time_range2.split(' - ')
+
+    # Convert time strings to datetime objects
+    start_datetime1 = datetime.datetime.strptime(day1 + ' ' + start_time1, '%a %H:%M')
+    end_datetime1 = datetime.datetime.strptime(day1 + ' ' + end_time1, '%a %H:%M')
+    start_datetime2 = datetime.datetime.strptime(day2 + ' ' + start_time2, '%a %H:%M')
+    end_datetime2 = datetime.datetime.strptime(day2 + ' ' + end_time2, '%a %H:%M')
+
+    # Check for intersection
+    if day1 == day2 and (start_datetime1 <= end_datetime2 and end_datetime1 >= start_datetime2):
+        return True
+    else:
+        return False

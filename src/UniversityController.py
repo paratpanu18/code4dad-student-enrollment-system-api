@@ -9,7 +9,7 @@ from Faculty import Faculty
 from Major import Major
 from Grade import Grade
 from Transcript import Transcript
-from Util import get_current_semester, get_current_academic_year
+from Util import get_current_semester, get_current_academic_year, time_is_intersect
 import Schema
 
 university_router = APIRouter(tags=["university"])
@@ -76,14 +76,24 @@ class University():
             if student.is_passed_course(pre_requisite_course) is False:
                 raise HTTPException(status_code=400, detail=f'Student has not passed the pre-requisite course: ({pre_requisite_course.course_id}) {pre_requisite_course.course_name}')
             
-        if student.get_transcript_by_semester_and_year(semester, year) is not None and student.get_transcript_by_semester_and_year(semester, year).current_credit + section.course.credit > self.__max_credit:
+        student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+        if student_transcript is not None and \
+           student_transcript.current_credit + section.course.credit > self.__max_credit:
             raise HTTPException(status_code=400, detail="Cannot enroll to the section. The student has reached the maximum credit")
 
-        # Enroll student to the section and add the enrollment to the student's transcript and do again for co-requisite courses
-        section.add_student_to_section(student)
-        student.enroll_to_section(section)
+        # Check if time schedule is overlapped
+        if student_transcript:
+            new_section_schedule = section.schedule
+            for enrollment in student_transcript.enrollment_list:
+                existing_section_schedule = enrollment.section.schedule
+                if time_is_intersect(new_section_schedule, existing_section_schedule):
+                    raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the existing section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
 
-        student_transcript = student.get_transcript_by_semester_and_year(semester, year)
+        # Enroll student to the section and add the enrollment to the student's transcript and do again for co-requisite courses
+        if section.add_student_to_section(student):
+            student.enroll_to_section(section)
+        else:
+            return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
 
         if course.co_requisite_course is not None:
             co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
@@ -94,7 +104,7 @@ class University():
             
         if len(section.student_list) > section.max_student:
             return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
-        
+          
         return student_transcript.to_dict()
     
     def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
