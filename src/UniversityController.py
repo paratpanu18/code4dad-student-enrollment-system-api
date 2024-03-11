@@ -309,9 +309,9 @@ class University():
         if course is None:
             raise HTTPException(status_code=404, detail="Course not found")
         
-        if course_group == "Core":
+        if course_group == "Core Course":
             major.add_core_course(course)
-        elif course_group == "Elective":
+        elif course_group == "Elective Course":
             major.add_elective_course(course)
         else:
             raise HTTPException(status_code=400, detail="Invalid course type. Course type must be one of the following: Core, Elective")
