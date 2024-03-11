@@ -85,3 +85,8 @@ class GradeAndScoreAssignment(BaseModel):
     semester: int
     year: int
     grade_and_score_dict: dict
+
+class ChangePasswordRequest(BaseModel):
+    username: str
+    old_password: str
+    new_password: str

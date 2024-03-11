@@ -457,6 +457,17 @@ class University():
         else:
             raise HTTPException(status_code=400, detail="Something went wrong")
 
+    def change_password(self, username, old_password, new_password):
+        user = self.get_user_by_username(username)
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        if not user.password_is_correct(old_password):
+            raise HTTPException(status_code=400, detail="Old password is incorrect")
+        
+        user.change_password(new_password)
+        return {"message": "Password is changed"}
+
 kmitl = University(name="KMITL")
 
 
@@ -570,6 +581,10 @@ async def get_detail_student_in_section(course_id: str, section_number: int, sem
 @authenticator_router.post("/login")
 async def login(credentials: Schema.LoginCredentials):
     return kmitl.login(credentials.username, credentials.password)
+
+@authenticator_router.put("/change_password")
+async def change_password(credentials: Schema.ChangePasswordRequest):
+    return kmitl.change_password(credentials.username, credentials.old_password, credentials.new_password)
 
 # University
 @university_router.get("/get_all_course_in_major/{faculty_name}/{major_name}")
