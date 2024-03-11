@@ -20,6 +20,7 @@ class Transcript():
         self.__enrollment_list = []
         self.__gps = None
         self.__gpa = None
+        self.__current_credit = 0
 
     @property
     def semester(self):
@@ -32,15 +33,28 @@ class Transcript():
     @property
     def enrollment_list(self):
         return self.__enrollment_list
+    
+    @property
+    def max_credit(self):
+        return self.__max_credit
+    
+    @property
+    def current_credit(self):
+        return self.__current_credit
+    @current_credit.setter
+    def current_credit(self, credit):
+        self.__current_credit = credit
 
     def add_enrollment(self, student, section):
+        self.__current_credit += section.course.credit
         new_enrollment = Enrollment(student, section)
         self.__enrollment_list.append(new_enrollment)
-        return new_enrollment.to_dict()
+        return self.to_dict()
     
     def drop_enrollment_from_transcript(self, section):
         for enrollment in self.__enrollment_list:
             if enrollment.section == section and enrollment.grade == "N/A":
+                self.__current_credit -= section.course.credit
                 self.__enrollment_list.remove(enrollment)
                 return True
         raise HTTPException(status_code=400, detail="Student is not enrolled in the section or the grade is already given")
@@ -62,7 +76,9 @@ class Transcript():
             "semester": self.__semester,
             "year": self.__year,
             "enrollments": [enrollment.to_dict() for enrollment in self.__enrollment_list],
-            "gps": self.__gps if self.__gps is not "N/A" else "N/A"
+            "gps": self.__gps if self.__gps is not None and isinstance(self.__gps, float)  else "N/A",
+            "current_credit": self.__current_credit if self.__current_credit is not None and isinstance(self.__current_credit, int) else "N/A"
+
         }
     
     def assign_grade_to_enrollment(self, section, grade):

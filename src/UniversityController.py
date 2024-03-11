@@ -8,6 +8,7 @@ from Section import Section
 from Faculty import Faculty
 from Major import Major
 from Grade import Grade
+from Transcript import Transcript
 from Util import get_current_semester, get_current_academic_year
 import Schema
 
@@ -24,6 +25,7 @@ class University():
         self.__user_list = []
         self.__faculty_list = []
         self.__course_list = []
+        self.__max_credit = 27
 
     def get_student_by_student_id(self, student_id):
         for user in self.__user_list:
@@ -73,13 +75,16 @@ class University():
         for pre_requisite_course in course.pre_requisite_course_list:
             if not student.is_passed_course(pre_requisite_course):
                 raise HTTPException(status_code=400, detail=f'Student has not passed the pre-requisite course: ({pre_requisite_course.course_id}) {pre_requisite_course.course_name}')
+            
+        if student.get_transcript_by_semester_and_year(semester, year) is not None and student.get_transcript_by_semester_and_year(semester, year).current_credit + section.course.credit > self.__max_credit:
+            raise HTTPException(status_code=400, detail="Cannot enroll to the section. The student has reached the maximum credit")
 
         if section.add_student_to_section(student):
             return student.enroll_to_section(section)
         
         return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
     
-    def drop_student_from_section(self, student_id, course_id, section_number):
+    def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
         if student is None:
             raise HTTPException(status_code=404, detail="Student not found")
@@ -88,17 +93,18 @@ class University():
         if course is None:
             raise HTTPException(status_code=404, detail="Course not found")
         
-        section = course.get_section_by_section_number(section_number)
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
         if section is None:
             raise HTTPException(status_code=404, detail="Section not found")
         
         if student not in section.student_list:
             raise HTTPException(status_code=400, detail="Student is not enrolled in section")
         
-        student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+        student_transcript = student.get_transcript_by_semester_and_year(semester, year)
         
         section.drop_student_from_section(student)
         student_transcript.drop_enrollment_from_transcript(section)
+        # student_transcript.current_credit -= section.course.credit
 
         next_student_in_wait_list = section.get_next_student_in_wait_list()
 

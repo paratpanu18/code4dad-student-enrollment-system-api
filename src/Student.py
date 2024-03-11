@@ -47,7 +47,6 @@ class Student(Account):
         return self.__year_entered
     
     def enroll_to_section(self, section):
-
         transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
 
         # If the student does not have a transcript for the semester and year, create a new transcript
