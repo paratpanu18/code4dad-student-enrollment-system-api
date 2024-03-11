@@ -49,6 +49,7 @@ class Section():
             "course_id": self.__course.course_id,
             "course_name": self.__course.course_name,
             "section_number": self.__section_number,
+            "grading_type": self.__course.grading_type,
             "teacher": self.__teacher.name,
             "number_of_student": f'{len(self.__student_list)}/{self.__max_student}',
             "location": self.__location,
