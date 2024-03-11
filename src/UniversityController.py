@@ -104,8 +104,8 @@ class University():
             
         if len(section.student_list) > section.max_student:
             return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
-          
-        return student_transcript.to_dict()
+
+        return student.get_transcript_by_semester_and_year(section.semester, section.year).to_dict()
     
     def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
