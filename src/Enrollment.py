@@ -47,17 +47,12 @@ class Enrollment():
             "course_name": self.__section.course.course_name,
             "credit": self.__section.course.credit,
             "section_number": self.__section.section_number,
+            "semester": self.__section.semester,
+            "year": self.__section.year,
             "schedule": self.__section.schedule,
             "location": self.__section.location,
-        }
-
-    def to_dict_with_grade(self):
-        return {
-            "course_id": self.__section.course.course_id,
-            "course_name": self.__section.course.course_name,
-            "credit": self.__section.course.credit,
-            "section_number": self.__section.section_number,
-            "grade": self.__grade if self.__grade else "N/A"
+            "grade": self.__grade if self.__grade else "N/A",
+            "score": self.__score
         }
     
     def to_dict_with_student(self):

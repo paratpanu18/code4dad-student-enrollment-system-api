@@ -111,7 +111,7 @@ class University():
         self.drop_student_from_section(student_id, course_id, old_section_number)
         return self.enroll_student_to_section(student_id, course_id, new_section_number)
 
-    def get_student_enrolled_courses(self, student_id, semester, year):
+    def get_student_transcript_by_semester_and_year(self, student_id, semester, year):
         student = self.get_student_by_student_id(student_id)
         if student is None:
             raise HTTPException(status_code=404, detail="Student not found")
@@ -119,7 +119,7 @@ class University():
         transcript = student.get_transcript_by_semester_and_year(semester, year)
 
         if transcript is not None:
-            return transcript.get_all_enrollment_list()
+            return transcript.to_dict()
         
         raise HTTPException(status_code=404, detail="Transcript not found")
     
@@ -196,8 +196,6 @@ class University():
                 student_transcript.assign_score_to_enrollment(section, score_name, score)
 
         return section.get_grade_and_score_student()
-        
-
     
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:
@@ -483,9 +481,9 @@ async def drop(drop: Schema.Enroll):
 async def change_section(change: Schema.ChangeSection):
     return kmitl.change_student_section(change.student_id, change.course_id, change.old_section_number, change.new_section_number)
 
-@student_router.get("/get_student_enrolled_courses/{student_id}/{semester}/{year}")
-async def get_student_enrolled_courses(student_id: str, semester: int, year: int):
-    return kmitl.get_student_enrolled_courses(student_id, semester, year)
+@student_router.get("/get_student_transcript_by_semester_and_year/{student_id}/{semester}/{year}")
+async def get_student_transcript_by_semester_and_year(student_id: str, semester: int, year: int):
+    return kmitl.get_student_transcript_by_semester_and_year(student_id, semester, year)
 
 @student_router.get("/get_all_student_transcripts/{student_id}")
 def get_all_student_transcript(student_id: str):
