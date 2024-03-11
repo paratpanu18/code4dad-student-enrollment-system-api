@@ -98,6 +98,12 @@ class Course():
         self.__section_list.append(new_section)
         return new_section.to_dict()
     
+    def remove_section(self, section):
+        if section in self.__section_list:
+            self.__section_list.remove(section)
+            return True
+        return False
+    
     def __iter__(self):
         return iter(self.__section_list)
         
