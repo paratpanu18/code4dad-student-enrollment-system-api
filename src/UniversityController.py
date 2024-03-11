@@ -89,10 +89,23 @@ class University():
                 if time_is_intersect(new_section_schedule, existing_section_schedule):
                     raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the existing section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
 
+        # Enroll student to the section and add the enrollment to the student's transcript and do again for co-requisite courses
         if section.add_student_to_section(student):
-            return student.enroll_to_section(section)
-        
-        return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
+            student.enroll_to_section(section)
+        else:
+            return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
+
+        if course.co_requisite_course is not None:
+            co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
+            if co_requisite_course_section is not None:
+                co_requisite_course_section.add_student_to_section(student)
+                student.enroll_to_section(co_requisite_course_section)
+                return student_transcript.to_dict()
+            
+        if len(section.student_list) > section.max_student:
+            return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
+          
+        return student_transcript.to_dict()
     
     def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
@@ -114,7 +127,12 @@ class University():
         
         section.drop_student_from_section(student)
         student_transcript.drop_enrollment_from_transcript(section)
-        # student_transcript.current_credit -= section.course.credit
+        
+        if course.co_requisite_course is not None:
+            co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
+            if co_requisite_course_section is not None:
+                co_requisite_course_section.drop_student_from_section(student)
+                student_transcript.drop_enrollment_from_transcript(co_requisite_course_section)
 
         next_student_in_wait_list = section.get_next_student_in_wait_list()
 
@@ -391,6 +409,39 @@ class University():
         
         return course.add_pre_requisite_course(pre_requisite_course)
     
+    def add_co_requisite_to_course_section(self, course_id, section_number, co_requisite_course_id, co_requisite_section_number, semester = get_current_semester(), year = get_current_academic_year()):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        co_requisite_course = self.get_course_by_course_id(co_requisite_course_id)
+        if co_requisite_course is None:
+            raise HTTPException(status_code=404, detail="Co-requisite course not found")
+        
+        co_requisite_section = co_requisite_course.get_section_by_section_number_semester_year(co_requisite_section_number, semester, year)
+        if co_requisite_section is None:
+            raise HTTPException(status_code=404, detail="Co-requisite section not found")
+        
+        section.add_co_requisite_section(co_requisite_section)
+        course.add_co_requisite_course(co_requisite_course)
+
+        return {"message": "Co-requisite is added"}
+    
+    def get_co_requisite_to_course_section(self, course_id, section_number, semester, year):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        return section.get_co_requisite_section()
+    
     def get_detail_student_in_section(self, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         course = self.get_course_by_course_id(course_id)
         if course is None:
@@ -466,6 +517,17 @@ class University():
             return {"message": "Section is deleted"}
         else:
             raise HTTPException(status_code=400, detail="Something went wrong")
+
+    def change_password(self, username, old_password, new_password):
+        user = self.get_user_by_username(username)
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        if not user.password_is_correct(old_password):
+            raise HTTPException(status_code=400, detail="Old password is incorrect")
+        
+        user.change_password(new_password)
+        return {"message": "Password is changed"}
 
 kmitl = University(name="KMITL")
 
@@ -575,11 +637,22 @@ async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
 async def get_detail_student_in_section(course_id: str, section_number: int, semester: int, year: int):
     return kmitl.get_detail_student_in_section(course_id, section_number, semester, year)
 
+@course_router.post("/add_co_requisite_to_course_section")
+async def add_co_requisite_to_course_section(co_requisite: Schema.InsertCoRequisite):
+    return kmitl.add_co_requisite_to_course_section(co_requisite.course_id, co_requisite.section_number, co_requisite.co_requisite_course_id, co_requisite.co_requisite_section_number)
+
+@course_router.get("/get_co_requisite_to_course_section/{course_id}/{section_number}")
+async def get_co_requisite_to_course_section(course_id: str, section_number: int):
+    return kmitl.get_co_requisite_to_course_section(course_id, section_number)
 
 # Authenticator
 @authenticator_router.post("/login")
 async def login(credentials: Schema.LoginCredentials):
     return kmitl.login(credentials.username, credentials.password)
+
+@authenticator_router.put("/change_password")
+async def change_password(credentials: Schema.ChangePasswordRequest):
+    return kmitl.change_password(credentials.username, credentials.old_password, credentials.new_password)
 
 # University
 @university_router.get("/get_all_course_in_major/{faculty_name}/{major_name}")

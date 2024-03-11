@@ -72,6 +72,12 @@ class InsertPreRequisite(BaseModel):
     course_id: str
     pre_requisite_course_id: str
 
+class InsertCoRequisite(BaseModel):
+    course_id: str
+    section_number: int
+    co_requisite_course_id: str
+    co_requisite_section_number: int
+
 class InsertAdmin(BaseModel):
     admin_id: str
     password: str
@@ -85,3 +91,8 @@ class GradeAndScoreAssignment(BaseModel):
     semester: int
     year: int
     grade_and_score_dict: dict
+
+class ChangePasswordRequest(BaseModel):
+    username: str
+    old_password: str
+    new_password: str

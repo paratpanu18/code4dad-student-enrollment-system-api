@@ -864,6 +864,28 @@ def init_major():
 
 def init_add_course_to_major():
     pass
+
+def init_co_requisite():
+    kmitl.add_co_requisite_to_course_section(course_id = "01076105",
+                                             section_number= 17,
+                                            co_requisite_course_id = "01076106",
+                                            co_requisite_section_number= 117)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076106",
+                                            section_number= 117,
+                                            co_requisite_course_id = "01076105",
+                                            co_requisite_section_number= 17)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076107",
+                                            section_number= 17,
+                                            co_requisite_course_id = "01076108",
+                                            co_requisite_section_number= 117)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076108",
+                                            section_number= 117,
+                                            co_requisite_course_id = "01076107",
+                                            co_requisite_section_number= 17)
+    
     
 def init():
     init_student()
@@ -875,3 +897,4 @@ def init():
     init_faculty()
     init_major()
     init_add_course_to_major()
+    init_co_requisite()

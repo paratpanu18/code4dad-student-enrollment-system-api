@@ -46,6 +46,9 @@ class Account():
     def password_is_correct(self, password):
         return self.__password == hash(password)
     
+    def change_password(self, new_password):
+        self.__password = hash(new_password)
+    
     def create_token(self):
         expire_time = datetime.datetime.utcnow() + datetime.timedelta(seconds=TOKEN_EXPIRATION_TIME)
         to_encode = {

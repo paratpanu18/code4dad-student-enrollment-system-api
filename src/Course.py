@@ -28,6 +28,7 @@ class Course():
         self.__grading_type = GRADING_TYPE[grading_type]
         self.__section_list = []
         self.__pre_requisite_course_list = []
+        self.__co_requisite_course = None
 
     @property
     def course_id(self):
@@ -57,12 +58,20 @@ class Course():
     def pre_requisite_course_list(self):
         return self.__pre_requisite_course_list
     
+    @property
+    def co_requisite_course(self):
+        return self.__co_requisite_course
+    
     def add_pre_requisite_course(self, pre_requisite_course):
         if self in pre_requisite_course.__pre_requisite_course_list:
             raise HTTPException(status_code=400, detail="Circular pre-requisite detected")
         
         self.__pre_requisite_course_list.append(pre_requisite_course)
         return pre_requisite_course.to_dict()
+    
+    def add_co_requisite_course(self, co_requisite_course):
+        self.__co_requisite_course = co_requisite_course
+        return co_requisite_course.to_dict()
     
     def get_section_by_semester_year(self, semester, year):
         result = []
