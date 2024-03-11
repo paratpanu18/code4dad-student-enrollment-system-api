@@ -74,9 +74,9 @@ class Student(Account):
     def is_passed_course(self, course):
         for transcript in self.__transcript_list:
             for enrollment in transcript.enrollment_list:
-                if enrollment.section.course == course and (enrollment.grade != "N/A" or enrollment.grade != "F"):
-                    return True
-        return False
+                if enrollment.section.course == course and enrollment.grade in ["F", "U" ,"N/A"]:
+                    return False
+        return True
     
     def get_grade_and_score_by_section(self, section):
         for transcript in self.__transcript_list:

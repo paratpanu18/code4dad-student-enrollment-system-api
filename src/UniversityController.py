@@ -73,7 +73,7 @@ class University():
         
         # Check if student passed the pre-requisite courses
         for pre_requisite_course in course.pre_requisite_course_list:
-            if not student.is_passed_course(pre_requisite_course):
+            if student.is_passed_course(pre_requisite_course) is False:
                 raise HTTPException(status_code=400, detail=f'Student has not passed the pre-requisite course: ({pre_requisite_course.course_id}) {pre_requisite_course.course_name}')
             
         if student.get_transcript_by_semester_and_year(semester, year) is not None and student.get_transcript_by_semester_and_year(semester, year).current_credit + section.course.credit > self.__max_credit:
