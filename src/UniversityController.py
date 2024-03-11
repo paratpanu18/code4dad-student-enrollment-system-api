@@ -79,10 +79,23 @@ class University():
         if student.get_transcript_by_semester_and_year(semester, year) is not None and student.get_transcript_by_semester_and_year(semester, year).current_credit + section.course.credit > self.__max_credit:
             raise HTTPException(status_code=400, detail="Cannot enroll to the section. The student has reached the maximum credit")
 
-        if section.add_student_to_section(student):
-            return student.enroll_to_section(section)
+        # Enroll student to the section and add the enrollment to the student's transcript and do again for co-requisite courses
+        section.add_student_to_section(student)
+        student.enroll_to_section(section)
+
+        student_transcript = student.get_transcript_by_semester_and_year(semester, year)
+
+        if course.co_requisite_course is not None:
+            co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
+            if co_requisite_course_section is not None:
+                co_requisite_course_section.add_student_to_section(student)
+                student.enroll_to_section(co_requisite_course_section)
+                return student_transcript.to_dict()
+            
+        if len(section.student_list) > section.max_student:
+            return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
         
-        return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
+        return student_transcript.to_dict()
     
     def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
@@ -104,7 +117,12 @@ class University():
         
         section.drop_student_from_section(student)
         student_transcript.drop_enrollment_from_transcript(section)
-        # student_transcript.current_credit -= section.course.credit
+        
+        if course.co_requisite_course is not None:
+            co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
+            if co_requisite_course_section is not None:
+                co_requisite_course_section.drop_student_from_section(student)
+                student_transcript.drop_enrollment_from_transcript(co_requisite_course_section)
 
         next_student_in_wait_list = section.get_next_student_in_wait_list()
 
@@ -381,6 +399,39 @@ class University():
         
         return course.add_pre_requisite_course(pre_requisite_course)
     
+    def add_co_requisite_to_course_section(self, course_id, section_number, co_requisite_course_id, co_requisite_section_number, semester = get_current_semester(), year = get_current_academic_year()):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        co_requisite_course = self.get_course_by_course_id(co_requisite_course_id)
+        if co_requisite_course is None:
+            raise HTTPException(status_code=404, detail="Co-requisite course not found")
+        
+        co_requisite_section = co_requisite_course.get_section_by_section_number_semester_year(co_requisite_section_number, semester, year)
+        if co_requisite_section is None:
+            raise HTTPException(status_code=404, detail="Co-requisite section not found")
+        
+        section.add_co_requisite_section(co_requisite_section)
+        course.add_co_requisite_course(co_requisite_course)
+
+        return {"message": "Co-requisite is added"}
+    
+    def get_co_requisite_to_course_section(self, course_id, section_number, semester, year):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        return section.get_co_requisite_section()
+    
     def get_detail_student_in_section(self, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         course = self.get_course_by_course_id(course_id)
         if course is None:
@@ -576,6 +627,13 @@ async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
 async def get_detail_student_in_section(course_id: str, section_number: int, semester: int, year: int):
     return kmitl.get_detail_student_in_section(course_id, section_number, semester, year)
 
+@course_router.post("/add_co_requisite_to_course_section")
+async def add_co_requisite_to_course_section(co_requisite: Schema.InsertCoRequisite):
+    return kmitl.add_co_requisite_to_course_section(co_requisite.course_id, co_requisite.section_number, co_requisite.co_requisite_course_id, co_requisite.co_requisite_section_number)
+
+@course_router.get("/get_co_requisite_to_course_section/{course_id}/{section_number}")
+async def get_co_requisite_to_course_section(course_id: str, section_number: int):
+    return kmitl.get_co_requisite_to_course_section(course_id, section_number)
 
 # Authenticator
 @authenticator_router.post("/login")

@@ -12,7 +12,7 @@ class Section():
         self.__schedule = schedule
         self.__semester = semester
         self.__year = year
-
+        self.__co_requisite_section = None
         self.__student_list = []
         self.__wait_list = []
     
@@ -43,6 +43,18 @@ class Section():
     @property
     def location(self):
         return self.__location
+    
+    @property
+    def wait_list(self):
+        return self.__wait_list
+    
+    @property
+    def max_student(self):
+        return self.__max_student
+    
+    @property
+    def co_requisite_section(self):
+        return self.__co_requisite_section
     
     def to_dict(self):
         return {
@@ -82,3 +94,10 @@ class Section():
         for student in self.__student_list:
             result.append(student.get_grade_and_score_by_section(self))
         return result
+    
+    def add_co_requisite_section(self, co_requisite_section):
+        self.__co_requisite_section = co_requisite_section
+        return co_requisite_section.to_dict()
+    
+    def get_co_requisite_section(self):
+        return [section.to_dict() for section in self.__co_requisite_section_list]

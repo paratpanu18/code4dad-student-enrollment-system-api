@@ -53,6 +53,7 @@ class Student(Account):
         if transcript is None:
             new_transcript = Transcript(section.semester, section.year)
             self.__transcript_list.append(new_transcript)
+            
 
             return new_transcript.add_enrollment(self, section)
 
