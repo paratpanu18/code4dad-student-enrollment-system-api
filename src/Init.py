@@ -178,28 +178,28 @@ def init_course():
     kmitl.add_course(course_name = "Object-Oriented Programming",
                      course_id = "01076105", 
                      credit = 2, 
-                     course_type = FACULTY, 
+                     course_type = CURRICULUM, 
                      grading_type = GRADE)
     kmitl.add_pre_requisite_to_course("01076105", "01076103")       # Object-Oriented Programming requires Programming Fundamental
 
     kmitl.add_course(course_name = "Object-Oriented Programming Project",
                      course_id = "01076106", 
                      credit = 1, 
-                     course_type = FACULTY, 
+                     course_type = CURRICULUM, 
                      grading_type = GRADE)
     kmitl.add_pre_requisite_to_course("01076106", "01076103")       # Object-Oriented Programming requires Programming Fundamental
 
     kmitl.add_course(course_name = "Circuit and Electronics",
                      course_id = "01076107", 
                      credit = 3, 
-                     course_type = FACULTY, 
+                     course_type = CURRICULUM, 
                      grading_type = GRADE)
     kmitl.add_pre_requisite_to_course("01076107", "01076001")       # Circuit and Electronics requires Introduction to Computer Engineering
     
     kmitl.add_course(course_name = "Circuit and Electronics in Practice",
                      course_id = "01076108", 
                      credit = 3, 
-                     course_type = FACULTY, 
+                     course_type = CURRICULUM, 
                      grading_type = GRADE)
     kmitl.add_pre_requisite_to_course("01076108", "01076001")       # Circuit and Electronics in Practice requires Introduction to Computer Engineering
     
@@ -213,7 +213,7 @@ def init_course():
     kmitl.add_course(course_name = "Discrete Structure",
                      course_id = "01076012", 
                      credit = 3, 
-                     course_type = FACULTY, 
+                     course_type = CURRICULUM, 
                      grading_type = GRADE)
     
     kmitl.add_course(course_name = "Charm School",

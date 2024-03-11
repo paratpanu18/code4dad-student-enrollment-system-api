@@ -318,7 +318,7 @@ class University():
         
         return major.to_dict()
     
-    def get_course_by_course_type(self, faculty_name, major_name, semester, year, course_type):
+    def get_course_by_course_type(self, faculty_name, major_name, course_type, semester = get_current_semester(), year = get_current_academic_year()):
         faculty = self.get_faculty_by_faculty_name(faculty_name)
         if faculty is None:
             raise HTTPException(status_code=404, detail="Faculty not found")
@@ -522,9 +522,9 @@ def get_all_sections_taught_by_teacher_id(teacher_id: str, semester: int, year: 
 async def get_course_by_course_id(course_id: str):
     return kmitl.get_course_data_by_course_id(course_id)
 
-@course_router.get("/get_course_by_course_type/{faculty_name}/{major_name}/{semester}/{year}/{course_type}")
-async def get_course_by_course_type(faculty_name: str, major_name: str, semester: int, year: int, course_type: str):
-    return kmitl.get_course_by_course_type(faculty_name, major_name, semester, year, course_type)
+@course_router.get("/get_course_by_course_type/{faculty_name}/{major_name}/{course_type}")
+async def get_course_by_course_type(faculty_name: str, major_name: str, course_type: str):
+    return kmitl.get_course_by_course_type(faculty_name, major_name, course_type)
 
 @course_router.post("/add_course")
 async def add_course(course: Schema.InsertCourse):
