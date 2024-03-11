@@ -75,17 +75,11 @@ class Transcript():
         return {
             "semester": self.__semester,
             "year": self.__year,
-            "enrollments": [enrollment.to_dict_with_grade() for enrollment in self.__enrollment_list],
+            "enrollments": [enrollment.to_dict() for enrollment in self.__enrollment_list],
             "gps": self.__gps if self.__gps is not None and isinstance(self.__gps, float)  else "N/A",
             "current_credit": self.__current_credit if self.__current_credit is not None and isinstance(self.__current_credit, int) else "N/A"
-        }
-    
-    def get_all_enrollment_list(self):
-        result = []
-        for enrollment in self.__enrollment_list:
-            result.append(enrollment.to_dict())
 
-        return result
+        }
     
     def assign_grade_to_enrollment(self, section, grade):
         for enrollment in self.__enrollment_list:
@@ -93,6 +87,13 @@ class Transcript():
                 enrollment.grade = grade
                 self.calculate_gps()
 
+                return enrollment.to_dict()
+        raise ValueError("Student is not enrolled in the section")
+    
+    def assign_score_to_enrollment(self, section, score_name, score):
+        for enrollment in self.__enrollment_list:
+            if enrollment.section == section:
+                enrollment.score[score_name] = score
                 return enrollment.to_dict()
         raise ValueError("Student is not enrolled in the section")
     

@@ -117,7 +117,7 @@ class University():
         self.drop_student_from_section(student_id, course_id, old_section_number)
         return self.enroll_student_to_section(student_id, course_id, new_section_number)
 
-    def get_student_enrolled_courses(self, student_id, semester, year):
+    def get_student_transcript_by_semester_and_year(self, student_id, semester, year):
         student = self.get_student_by_student_id(student_id)
         if student is None:
             raise HTTPException(status_code=404, detail="Student not found")
@@ -125,9 +125,16 @@ class University():
         transcript = student.get_transcript_by_semester_and_year(semester, year)
 
         if transcript is not None:
-            return transcript.get_all_enrollment_list()
+            return transcript.to_dict()
         
         raise HTTPException(status_code=404, detail="Transcript not found")
+    
+    def get_all_student_transcript_by_student_id(self, student_id):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        return student.get_all_transcripts()
 
     def get_teacher_by_teacher_id(self, teacher_id):
         for user in self.__user_list:
@@ -168,6 +175,33 @@ class University():
         student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
 
         return student_transcript.assign_grade_to_enrollment(section, grade)
+    
+    def assign_grade_and_score_to_multiple_student(self, grade_and_score: Schema.GradeAndScoreAssignment):
+        course = self.get_course_by_course_id(grade_and_score.course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(grade_and_score.section_number, grade_and_score.semester, grade_and_score.year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        grade_and_score_dict = grade_and_score.grade_and_score_dict
+        
+        for student_id, score_data in grade_and_score_dict.items():
+            student = self.get_student_by_student_id(student_id)
+            if student is None:
+                raise HTTPException(status_code=404, detail="Student not found")
+            
+            if student not in section.student_list:
+                raise HTTPException(status_code=400, detail="Student is not enrolled in section")
+            
+            student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
+            student_transcript.assign_grade_to_enrollment(section, score_data["grade"])
+
+            for score_name, score in score_data["score"].items():
+                student_transcript.assign_score_to_enrollment(section, score_name, score)
+
+        return section.get_grade_and_score_student()
     
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:
@@ -393,7 +427,35 @@ class University():
         new_admin = Admin(admin_id, password, email, name, citizen_id)
         self.__user_list.append(new_admin)
         return new_admin.to_dict()
-
+    
+    def delete_user_by_username(self, username):
+        for user in self.__user_list:
+            if user.username == username:
+                self.__user_list.remove(user)
+                return {"message": "User is deleted"}
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    def delete_course_by_course_id(self, course_id):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        self.__course_list.remove(course)
+        return {"message": "Course is deleted"}
+    
+    def delete_section_from_course(self, course_id, section_number, semester, year):
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        section = course.get_section_by_section_number_semester_year(section_number, semester, year)
+        if section is None:
+            raise HTTPException(status_code=404, detail="Section not found")
+        
+        if course.remove_section(section):
+            return {"message": "Section is deleted"}
+        else:
+            raise HTTPException(status_code=400, detail="Something went wrong")
 
 kmitl = University(name="KMITL")
 
@@ -425,13 +487,13 @@ async def drop(drop: Schema.Enroll):
 async def change_section(change: Schema.ChangeSection):
     return kmitl.change_student_section(change.student_id, change.course_id, change.old_section_number, change.new_section_number)
 
-@student_router.get("/get_student_enrolled_courses/{student_id}/{semester}/{year}")
-async def get_student_enrolled_courses(student_id: str, semester: int, year: int):
-    return kmitl.get_student_enrolled_courses(student_id, semester, year)
+@student_router.get("/get_student_transcript_by_semester_and_year/{student_id}/{semester}/{year}")
+async def get_student_transcript_by_semester_and_year(student_id: str, semester: int, year: int):
+    return kmitl.get_student_transcript_by_semester_and_year(student_id, semester, year)
 
 @student_router.get("/get_all_student_transcripts/{student_id}")
 def get_all_student_transcript(student_id: str):
-    return kmitl.get_student_by_student_id(student_id).get_all_transcripts()
+    return kmitl.get_all_student_transcript_by_student_id(student_id)
 
 # Teacher
 @teacher_router.post("/add_teacher")
@@ -448,7 +510,12 @@ async def get_teacher_by_teacher_id(teacher_id: str):
 
 @teacher_router.post("/assign_grade_to_student")
 def assign_grade_to_student(grade: Schema.GradeAssignment):
-    return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)
+    return kmitl.assign_grade_to_student(grade.student_id, grade.course_id, grade.section_number, grade.grade)\
+
+@teacher_router.post("/assign_grade_and_score_to_multiple_student")
+async def assign_grade_and_score_to_multiple_student(grade: Schema.GradeAndScoreAssignment):
+    return kmitl.assign_grade_and_score_to_multiple_student(grade)
+
 
 @teacher_router.get("/get_all_sections_taught_by_teacher_id/{teacher_id}/{semester}/{year}")
 def get_all_sections_taught_by_teacher_id(teacher_id: str, semester: int, year: int):
@@ -558,5 +625,15 @@ async def add_admin(admin: Schema.InsertAdmin):
 @admin_router.get("/get_admin_by_admin_id/{admin_id}")
 async def get_admin_by_admin_id(admin_id: str):
     return kmitl.get_data_admin_by_admin_id(admin_id)
-    
 
+@admin_router.delete("/delete_user_by_username/{username}")
+async def delete_user_by_username(username: str):
+    return kmitl.delete_user_by_username(username)
+
+@admin_router.delete("/delete_course_by_course_id/{course_id}")
+async def delete_course_by_course_id(course_id: str):
+    return kmitl.delete_course_by_course_id(course_id)
+
+@admin_router.delete("/delete_section_from_course/{course_id}/{section_number}/{semester}/{year}")
+async def delete_section_from_course(course_id: str, section_number: int, semester: int, year: int):
+    return kmitl.delete_section_from_course(course_id, section_number, semester, year)
