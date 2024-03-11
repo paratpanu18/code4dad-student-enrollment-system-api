@@ -61,16 +61,9 @@ class Transcript():
         return {
             "semester": self.__semester,
             "year": self.__year,
-            "enrollments": [enrollment.to_dict_with_grade() for enrollment in self.__enrollment_list],
+            "enrollments": [enrollment.to_dict() for enrollment in self.__enrollment_list],
             "gps": self.__gps if self.__gps is not "N/A" else "N/A"
         }
-    
-    def get_all_enrollment_list(self):
-        result = []
-        for enrollment in self.__enrollment_list:
-            result.append(enrollment.to_dict())
-
-        return result
     
     def assign_grade_to_enrollment(self, section, grade):
         for enrollment in self.__enrollment_list:
