@@ -20,7 +20,6 @@ class Transcript():
         self.__enrollment_list = []
         self.__gps = None
         self.__gpa = None
-        self.__max_credit = 27
         self.__current_credit = 0
 
     @property
@@ -47,16 +46,15 @@ class Transcript():
         self.__current_credit = credit
 
     def add_enrollment(self, student, section):
-        if self.__current_credit + section.course.credit <= self.__max_credit:
-            self.__current_credit += section.course.credit
-            new_enrollment = Enrollment(student, section)
-            self.__enrollment_list.append(new_enrollment)
-            return self.to_dict()
-        raise HTTPException(status_code=400, detail="Cannot enroll to the section. The student has reached the maximum credit")
+        self.__current_credit += section.course.credit
+        new_enrollment = Enrollment(student, section)
+        self.__enrollment_list.append(new_enrollment)
+        return self.to_dict()
     
     def drop_enrollment_from_transcript(self, section):
         for enrollment in self.__enrollment_list:
             if enrollment.section == section and enrollment.grade == "N/A":
+                self.__current_credit -= section.course.credit
                 self.__enrollment_list.remove(enrollment)
                 return True
         raise HTTPException(status_code=400, detail="Student is not enrolled in the section or the grade is already given")
@@ -78,8 +76,8 @@ class Transcript():
             "semester": self.__semester,
             "year": self.__year,
             "enrollments": [enrollment.to_dict_with_grade() for enrollment in self.__enrollment_list],
-            "gps": self.__gps if self.__gps is not "N/A" else "N/A",
-            "current_credit": f"{self.__current_credit}" "/" f"{self.__max_credit}" if self.__current_credit else "N/A"
+            "gps": self.__gps if self.__gps is not None and isinstance(self.__gps, float)  else "N/A",
+            "current_credit": self.__current_credit if self.__current_credit is not None and isinstance(self.__current_credit, int) else "N/A"
         }
     
     def get_all_enrollment_list(self):
