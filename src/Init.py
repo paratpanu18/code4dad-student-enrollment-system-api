@@ -886,6 +886,16 @@ def init_co_requisite():
                                             co_requisite_course_id = "01076107",
                                             co_requisite_section_number= 17)
     
+    kmitl.add_co_requisite_to_course_section(course_id = "01076107",
+                                            section_number= 16,
+                                            co_requisite_course_id = "01076108",
+                                            co_requisite_section_number= 116)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076108",
+                                            section_number= 116,
+                                            co_requisite_course_id = "01076107",
+                                            co_requisite_section_number= 16)
+    
     
 def init():
     init_student()
