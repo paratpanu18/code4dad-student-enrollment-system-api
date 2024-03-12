@@ -866,36 +866,46 @@ def init_add_course_to_major():
     pass
 
 def init_co_requisite():
-    kmitl.add_co_requisite_to_course_section(course_id = "01076105",
+    # Year 1 - Semester 2
+    kmitl.add_co_requisite_to_course_section(course_id = "01076105",    # Object-Oriented Programming
                                              section_number= 17,
                                             co_requisite_course_id = "01076106",
                                             co_requisite_section_number= 117)
     
-    kmitl.add_co_requisite_to_course_section(course_id = "01076106",
+    kmitl.add_co_requisite_to_course_section(course_id = "01076106",    # Object-Oriented Programming Project
                                             section_number= 117,
                                             co_requisite_course_id = "01076105",
                                             co_requisite_section_number= 17)
     
-    kmitl.add_co_requisite_to_course_section(course_id = "01076107",
+    kmitl.add_co_requisite_to_course_section(course_id = "01076105",    # Object-Oriented Programming
+                                             section_number= 16,
+                                            co_requisite_course_id = "01076106",
+                                            co_requisite_section_number= 116)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076106",    # Object-Oriented Programming Project
+                                            section_number= 116,
+                                            co_requisite_course_id = "01076105",
+                                            co_requisite_section_number= 16)
+    
+    kmitl.add_co_requisite_to_course_section(course_id = "01076107",    # Circuit and Electronics
                                             section_number= 17,
                                             co_requisite_course_id = "01076108",
                                             co_requisite_section_number= 117)
     
-    kmitl.add_co_requisite_to_course_section(course_id = "01076108",
+    kmitl.add_co_requisite_to_course_section(course_id = "01076108",    # Circuit and Electronics in Practice
                                             section_number= 117,
                                             co_requisite_course_id = "01076107",
                                             co_requisite_section_number= 17)
     
-    kmitl.add_co_requisite_to_course_section(course_id = "01076107",
+    kmitl.add_co_requisite_to_course_section(course_id = "01076107",    # Circuit and Electronics
                                             section_number= 16,
                                             co_requisite_course_id = "01076108",
                                             co_requisite_section_number= 116)
     
-    kmitl.add_co_requisite_to_course_section(course_id = "01076108",
+    kmitl.add_co_requisite_to_course_section(course_id = "01076108",    # Circuit and Electronics in Practice
                                             section_number= 116,
                                             co_requisite_course_id = "01076107",
                                             co_requisite_section_number= 16)
-    
     
 def init():
     init_student()
