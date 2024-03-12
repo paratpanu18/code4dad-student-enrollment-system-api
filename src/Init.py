@@ -45,6 +45,30 @@ def init_student():
                       citizen_id = "1234567890123",
                       major = "Computer Engineering",
                       faculty = "Engineering")
+    
+    kmitl.add_student(student_id = "66010555",
+                        password = "12345",
+                        email = "66010555@kmitl.ac.th",
+                        name = "Pisit Siritan",
+                        citizen_id = "1234567890123",
+                        major = "Civil Engineering",
+                        faculty = "Engineering")
+    
+    kmitl.add_student(student_id = "66010566",
+                        password = "12345",
+                        email = "66010566@kmitl.ac.th",
+                        name = "Pisut Siritan",
+                        citizen_id = "1234567890123",
+                        major = "Civil Engineering",
+                        faculty = "Engineering")
+    
+    kmitl.add_student(student_id = "66010577",
+                        password = "12345",
+                        email = "66010577@kmitl.ac.th",
+                        name = "Pisat Siritan",
+                        citizen_id = "1234567890123",
+                        major = "Civil Engineering",
+                        faculty = "Engineering")
 
 def init_teacher():
     kmitl.add_teacher(teacher_id = "teacher1",
@@ -208,7 +232,7 @@ def init_course():
                         credit = 3, 
                         course_type = GENED, 
                         grading_type = SATISFACTORY)
-    kmitl.add_pre_requisite_to_course("90641003", "90641002")       # Foundation English 2 requires Foundation English 1
+    kmitl.add_pre_requisite_to_course("90641003", "90644007")       # Foundation English 2 requires Foundation English 1
     
     kmitl.add_course(course_name = "Discrete Structure",
                      course_id = "01076012", 
@@ -863,7 +887,21 @@ def init_major():
                     faculty_name = "Management Science")
 
 def init_add_course_to_major():
-    pass
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076001", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076103", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076104", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076140", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "90641002", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "90642036", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "90644007", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076012", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "90642999", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076141", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "90641003", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076105", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076106", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076107", course_group="Core Course")
+    kmitl.add_course_to_major(faculty_name="Engineering", major_name = "Computer Engineering", course_id = "01076108", course_group="Core Course")
 
 def init_co_requisite():
     # Year 1 - Semester 2

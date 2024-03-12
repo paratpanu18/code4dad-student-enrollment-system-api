@@ -435,13 +435,22 @@ class University():
         
         return teacher.get_all_sections_taught_by_semester_and_year(semester, year)
                 
-    def get_all_section_by_semester_and_year(self, semester, year):
-        result = []
+    def get_all_section_in_major_by_semester_and_year(self, faculty_name, major_name, semester, year):
+        faculty = self.get_faculty_by_faculty_name(faculty_name)
+        if faculty is None:
+            raise HTTPException(status_code=404, detail="Faculty not found")
+        
+        major = faculty.get_major_by_major_name(major_name)
+        if major is None:
+            raise HTTPException(status_code=404, detail="Major not found")
+        
+        section_list = []
         for course in self.__course_list:
-            for section in course.section_list:
-                if section.semester == semester and section.year == year:
-                    result.append(section.to_dict())
-        return result
+            for section in course.get_section_by_semester_year(semester, year):
+                if course in major.core_course_list or course in major.elective_course_list:
+                    section_list.append(section.to_dict())
+        
+        return section_list
     
     def add_pre_requisite_to_course(self, course_id, pre_requisite_course_id):
         course = self.get_course_by_course_id(course_id)
@@ -688,9 +697,10 @@ async def add_section(section: Schema.InsertSection):
 async def get_all_sections_by_course_id(course_id: str):
     return kmitl.get_all_sections_data_by_course_id(course_id)
 
-@course_router.get("/get_all_section_by_semester_and_year/{semester}/{year}")
-async def get_all_section_by_semester_and_year(semester: int, year: int):
-    return kmitl.get_all_section_by_semester_and_year(semester, year)
+@course_router.get("/get_all_section_in_major_by_semester_and_year/{faculty_name}/{major_name}/{semester}/{year}")
+async def get_all_section_in_major_by_semester_and_year(faculty_name: str, major_name: str, semester: int, year: int):
+    return kmitl.get_all_section_in_major_by_semester_and_year(faculty_name, major_name, semester, year)
+
 
 @course_router.post("/add_pre_requisite_to_course")
 async def add_pre_requisite_to_course(pre_requisite: Schema.InsertPreRequisite):
