@@ -492,7 +492,25 @@ class University():
     def delete_user_by_username(self, username):
         for user in self.__user_list:
             if user.username == username:
+                # Remove the user from the section that the user is teaching
+                if isinstance(user, Teacher):
+                    for section in user.taught_section_list:
+                        section.teacher = None
+                
+                # Remove the user from the section that the user is enrolled
+                if isinstance(user, Student):
+                    student_id = user.student_id
+                    for transcript in user.transcript_list:
+                        for enrollment in transcript.enrollment_list:
+                            course_id = enrollment.section.course.course_id
+                            section_number = enrollment.section.section_number
+                            try:
+                                self.drop_student_from_section(student_id, course_id, section_number, transcript.semester, transcript.year)
+                            except:
+                                pass
+
                 self.__user_list.remove(user)
+                del user
                 return {"message": "User is deleted"}
         raise HTTPException(status_code=404, detail="User not found")
     

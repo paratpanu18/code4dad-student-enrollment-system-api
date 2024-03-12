@@ -46,6 +46,10 @@ class Student(Account):
     def year_entered(self):
         return self.__year_entered
     
+    @property
+    def transcript_list(self):
+        return self.__transcript_list
+    
     def enroll_to_section(self, section):
         transcript = self.get_transcript_by_semester_and_year(section.semester, section.year)
 
@@ -54,7 +58,6 @@ class Student(Account):
             new_transcript = Transcript(section.semester, section.year)
             self.__transcript_list.append(new_transcript)
             
-
             return new_transcript.add_enrollment(self, section)
 
         return transcript.add_enrollment(self, section)
