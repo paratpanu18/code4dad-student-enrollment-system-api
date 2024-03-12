@@ -266,6 +266,12 @@ class University():
             student_transcript.assign_grade_to_enrollment(section, score_data["grade"])
 
             for score_name, score in score_data["score"].items():
+                if score_name not in ["score_1", "score_2", "score_3", "score_4"]:
+                    raise HTTPException(status_code=400, detail="Invalid score name. Score name must be one of the following: score_1, score_2, score_3, score_4")
+                
+                if score < 0 or score > 100 or not isinstance(score, int) :
+                    raise HTTPException(status_code=400, detail="Invalid score. Score must be an integer between 0 and 100")
+                
                 student_transcript.assign_score_to_enrollment(section, score_name, score)
 
         return section.get_grade_and_score_student()
