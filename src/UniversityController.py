@@ -88,6 +88,13 @@ class University():
                 existing_section_schedule = enrollment.section.schedule
                 if time_is_intersect(new_section_schedule, existing_section_schedule):
                     raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the existing section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
+                
+            if section.co_requisite_section is not None:
+                co_requisite_section_schedule = section.co_requisite_section.schedule
+                for enrollment in student_transcript.enrollment_list:
+                    existing_section_schedule = enrollment.section.schedule
+                    if time_is_intersect(co_requisite_section_schedule, existing_section_schedule):
+                        raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the co-requisite section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
 
         # Enroll student to the section and add the enrollment to the student's transcript and do again for co-requisite courses
         if section.add_student_to_section(student):
@@ -95,7 +102,7 @@ class University():
         else:
             return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
 
-        if course.co_requisite_course is not None:
+        if course.co_requisite_course is not None and section.co_requisite_section is not None:
             co_requisite_course_section = course.co_requisite_course.get_section_by_section_number_semester_year(section.co_requisite_section.section_number, semester, year)
             if co_requisite_course_section is not None:
                 co_requisite_course_section.add_student_to_section(student)
@@ -105,7 +112,7 @@ class University():
         if len(section.student_list) > section.max_student:
             return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
 
-        return student.get_transcript_by_semester_and_year(section.semester, section.year).to_dict()
+        return student.get_transcript_by_semester_and_year(semester, year).to_dict()
     
     def drop_student_from_section(self, student_id, course_id, section_number, semester = get_current_semester(), year = get_current_academic_year()):
         student = self.get_student_by_student_id(student_id)
