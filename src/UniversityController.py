@@ -149,6 +149,38 @@ class University():
         return student_transcript.to_dict()
 
     def change_student_section(self, student_id, course_id, old_section_number, new_section_number):
+        student = self.get_student_by_student_id(student_id)
+        if student is None:
+            raise HTTPException(status_code=404, detail="Student not found")
+        
+        course = self.get_course_by_course_id(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        student_transcript = student.get_transcript_by_semester_and_year(get_current_semester(), get_current_academic_year())
+
+        section = course.get_section_by_section_number_semester_year(old_section_number, get_current_semester(), get_current_academic_year())
+        if section is None:
+            raise HTTPException(status_code=404, detail="Old section not found")
+        
+        if student not in section.student_list:
+            raise HTTPException(status_code=400, detail="Student is not enrolled in old section")
+        
+        # Check if time schedule is overlapped
+        if student_transcript:
+            new_section_schedule = section.schedule
+            for enrollment in student_transcript.enrollment_list:
+                existing_section_schedule = enrollment.section.schedule
+                if time_is_intersect(new_section_schedule, existing_section_schedule):
+                    raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the existing section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
+                
+            if section.co_requisite_section is not None:
+                co_requisite_section_schedule = section.co_requisite_section.schedule
+                for enrollment in student_transcript.enrollment_list:
+                    existing_section_schedule = enrollment.section.schedule
+                    if time_is_intersect(co_requisite_section_schedule, existing_section_schedule):
+                        raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the co-requisite section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
+        
         self.drop_student_from_section(student_id, course_id, old_section_number)
         return self.enroll_student_to_section(student_id, course_id, new_section_number)
 
