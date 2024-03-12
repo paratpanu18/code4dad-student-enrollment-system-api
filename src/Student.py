@@ -3,9 +3,10 @@ import datetime
 from Account import Account
 from Transcript import Transcript
 from Enrollment import Enrollment
+from Util import get_current_academic_year
 
 class Student(Account):
-    def __init__(self, student_id, password, email, student_name, citizen_id, major, faculty, year_entered = datetime.datetime.now().year):
+    def __init__(self, student_id, password, email, student_name, citizen_id, major, faculty, year_entered = get_current_academic_year()):
         super().__init__(username = student_id, 
                          password = password,
                          email = email,
