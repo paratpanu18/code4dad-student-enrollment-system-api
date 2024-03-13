@@ -276,6 +276,9 @@ class University():
 
         return section.get_grade_and_score_student()
     
+    def get_all_course(self):
+        return [course.to_dict() for course in self.__course_list]
+
     def add_course(self, course_name, course_id, credit, course_type, grading_type):
         if self.get_course_by_course_id(course_id) is not None:
             raise HTTPException(status_code=400, detail="Course ID already exists")
@@ -674,6 +677,10 @@ def get_all_sections_taught_by_teacher_id(teacher_id: str, semester: int, year: 
     return kmitl.get_all_sections_taught_by_teacher_id(teacher_id, semester, year)
 
 # Course
+@course_router.get("/get_all_course")
+async def get_all_course():
+    return kmitl.get_all_course()
+
 @course_router.get("/get_course_by_course_id/{course_id}")
 async def get_course_by_course_id(course_id: str):
     return kmitl.get_course_data_by_course_id(course_id)
