@@ -9,7 +9,7 @@ from Faculty import Faculty
 from Major import Major
 from Grade import Grade
 from Transcript import Transcript
-from Util import get_current_semester, get_current_academic_year, time_is_intersect
+from Util import get_current_semester, get_current_academic_year, time_is_intersect, grade_and_score_format_is_correct
 import Schema
 
 university_router = APIRouter(tags=["university"])
@@ -223,24 +223,23 @@ class University():
         
         grade_and_score_dict = grade_and_score.grade_and_score_dict
         
+        '''
+        Check if grade and score format is correct before assigning grade and score
+        Otherwise, if we assign grade and score to the student and the format is incorrect, 
+        it will be difficult to revert the change
+        '''
+        if not grade_and_score_format_is_correct(grade_and_score_dict):
+            raise HTTPException(status_code=400, detail="Invalid grade and score format")
+
         for student_id, score_data in grade_and_score_dict.items():
             student = self.get_student_by_student_id(student_id)
             if student is None:
                 raise HTTPException(status_code=404, detail="Student not found")
             
-            if student not in section.student_list:
-                raise HTTPException(status_code=400, detail="Student is not enrolled in section")
-            
             student_transcript = student.get_transcript_by_semester_and_year(section.semester, section.year)
             student_transcript.assign_grade_to_enrollment(section, score_data["grade"])
 
             for score_name, score in score_data["score"].items():
-                if score_name not in ["score_1", "score_2", "score_3", "score_4"]:
-                    raise HTTPException(status_code=400, detail="Invalid score name. Score name must be one of the following: score_1, score_2, score_3, score_4")
-                
-                if score < 0 or score > 100 or not isinstance(score, int) :
-                    raise HTTPException(status_code=400, detail="Invalid score. Score must be an integer between 0 and 100")
-                
                 student_transcript.assign_score_to_enrollment(section, score_name, score)
 
         return section.get_grade_and_score_student()

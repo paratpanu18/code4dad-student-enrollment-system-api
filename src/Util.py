@@ -101,3 +101,17 @@ def time_is_intersect(time_range1, time_range2):
         return True
     else:
         return False
+
+def grade_and_score_format_is_correct(grade_and_score_dict: dict):
+    for student_id, grade_and_score in grade_and_score_dict.items():
+        grade = grade_and_score["grade"]
+        if grade not in ["A", "B+", "B", "C+", "C", "D+", "D", "F", "S", "U", "N/A"]:
+            return False
+        
+        for score_name, score in grade_and_score["score"].items():
+            if score_name not in ["score_1", "score_2", "score_3", "score_4"]:
+                return False
+            if score < 0 and not (isinstance(score, int) or isinstance(score, float)):
+                return False
+            
+    return True
