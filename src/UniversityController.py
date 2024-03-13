@@ -107,7 +107,7 @@ class University():
             if co_requisite_course_section is not None:
                 co_requisite_course_section.add_student_to_section(student)
                 student.enroll_to_section(co_requisite_course_section)
-                return student_transcript.to_dict() if student_transcript else {"message": "Student is enrolled to the section and co-requisite section"}
+                return student.get_transcript_by_semester_and_year(semester, year).to_dict()
             
         if len(section.student_list) > section.max_student:
             return {"message": "Student is added to the wait list. Current number of students in the wait list: " + str(len(section.wait_list))}
@@ -149,45 +149,9 @@ class University():
         return student_transcript.to_dict()
 
     def change_student_section(self, student_id, course_id, old_section_number, new_section_number):
-        student = self.get_student_by_student_id(student_id)
-        if student is None:
-            raise HTTPException(status_code=404, detail="Student not found")
-        
-        course = self.get_course_by_course_id(course_id)
-        if course is None:
-            raise HTTPException(status_code=404, detail="Course not found")
-        
-        student_transcript = student.get_transcript_by_semester_and_year(get_current_semester(), get_current_academic_year())
-
-        section = course.get_section_by_section_number_semester_year(old_section_number, get_current_semester(), get_current_academic_year())
-        if section is None:
-            raise HTTPException(status_code=404, detail="Old section not found")
-        
-        if student not in section.student_list:
-            raise HTTPException(status_code=400, detail="Student is not enrolled in old section")
-        
-        new_section = course.get_section_by_section_number_semester_year(new_section_number, get_current_semester(), get_current_academic_year())
-        if new_section is None:
-            raise HTTPException(status_code=404, detail="New section not found")
-        
-        # Check if time schedule is overlapped
-        new_section_schedule = new_section.schedule
-        if student_transcript:
-            for enrollment in student_transcript.enrollment_list:
-                existing_section_schedule = enrollment.section.schedule
-                if time_is_intersect(new_section_schedule, existing_section_schedule) and new_section_schedule != existing_section_schedule:
-                    raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the existing section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
-                
-            if new_section.co_requisite_section is not None:
-                co_requisite_section_schedule = new_section.co_requisite_section.schedule
-                for enrollment in student_transcript.enrollment_list:
-                    existing_section_schedule = enrollment.section.schedule
-                    if time_is_intersect(co_requisite_section_schedule, existing_section_schedule):
-                        raise HTTPException(status_code=400, detail=f'Cannot enroll to the section. Time schedule is overlapped with the co-requisite section ({enrollment.section.course.course_id}) {enrollment.section.course.course_name}')
-    
         self.drop_student_from_section(student_id, course_id, old_section_number)
-        self.enroll_student_to_section(student_id, course_id, new_section_number)
-        return student_transcript.to_dict()
+        return self.enroll_student_to_section(student_id, course_id, new_section_number)
+        
 
     def get_student_transcript_by_semester_and_year(self, student_id, semester, year):
         student = self.get_student_by_student_id(student_id)
