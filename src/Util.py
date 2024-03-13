@@ -111,7 +111,7 @@ def grade_and_score_format_is_correct(grade_and_score_dict: dict):
         for score_name, score in grade_and_score["score"].items():
             if score_name not in ["score_1", "score_2", "score_3", "score_4"]:
                 return False
-            if score < 0 and not (isinstance(score, int) or isinstance(score, float)):
+            if score < 0 or not (isinstance(score, int) or isinstance(score, float)):
                 return False
             
     return True
