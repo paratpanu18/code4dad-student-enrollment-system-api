@@ -113,5 +113,5 @@ def grade_and_score_format_is_correct(grade_and_score_dict: dict):
                 return False
             if score < 0 or not (isinstance(score, int) or isinstance(score, float)):
                 return False
-            
+                   
     return True
