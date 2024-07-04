@@ -57,7 +57,7 @@ In case you want to try our project with better experience, you may visit Fronte
 
 ## Contributor
 As the Head Backend Developer, I want to extend a big thank you and my best wishes to all the contributors who have put in so much time and effort into this project.
-```markdown
+
 | **No.** 	| **Name** 	|
 |:---:	|:---:	|
 | 1 	| Paratpanu Pechsaman 	|
